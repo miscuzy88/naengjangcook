@@ -1,0 +1,560 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#1F7A55">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="냉장쿡">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0;font-size:14px}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>냉장쿡</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<style>
+/* Layout: 한 화면 모바일 앱. 상단 요약, 가운데 탭 콘텐츠, 하단 고정 탭바. 냉장고 칸(냉장/냉동/실온)을 색 띠로 구분. */
+:root {
+  --bg: #F2F6F5;
+  --surface: #FFFFFF;
+  --ink: #17302B;
+  --muted: #5B716C;
+  --line: #D6E2DF;
+  --accent: #1F7A55;
+  --accent-soft: #DDF0E6;
+  --fridge: #3C7FB0;
+  --freezer: #6A5FB8;
+  --pantry: #A5793A;
+  --warn: #B46A00;
+  --warn-soft: #FFF0D6;
+  --danger: #C2412D;
+  --danger-soft: #FCE3DE;
+  --font-display: "Do Hyeon", "IBM Plex Sans KR", system-ui, sans-serif;
+  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0F1817; --surface: #172422; --ink: #E3EEEB; --muted: #93AAA4; --line: #29403B;
+    --accent: #5CC795; --accent-soft: #1C3A2E; --fridge: #74B0DD; --freezer: #A79CF0; --pantry: #D7A866;
+    --warn: #F0B04A; --warn-soft: #3A2C12; --danger: #F07A66; --danger-soft: #3D1E19;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0F1817; --surface: #172422; --ink: #E3EEEB; --muted: #93AAA4; --line: #29403B;
+  --accent: #5CC795; --accent-soft: #1C3A2E; --fridge: #74B0DD; --freezer: #A79CF0; --pantry: #D7A866;
+  --warn: #F0B04A; --warn-soft: #3A2C12; --danger: #F07A66; --danger-soft: #3D1E19;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
+.wrap { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 16px calc(96px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 16px; }
+header.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.brand { font-family: var(--font-display); font-size: 32px; line-height: 1; color: var(--accent); }
+.brand small { display: block; font-family: var(--font-body); font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: .02em; }
+.ver { font-size: 11px; color: var(--muted); }
+h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin: 0; text-wrap: balance; }
+h3 { font-size: 13px; font-weight: 600; letter-spacing: .06em; color: var(--muted); margin: 0; }
+.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
+.stat b { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.stat span { font-size: 12px; color: var(--muted); }
+.stat.urgent b { color: var(--danger); }
+.notice { background: var(--warn-soft); color: var(--ink); border-radius: 10px; padding: 10px 12px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.section { display: flex; flex-direction: column; gap: 8px; }
+.list { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-top: 1px solid var(--line); min-width: 0; }
+.row:first-child { border-top: 0; }
+.stripe { width: 4px; align-self: stretch; border-radius: 2px; flex: none; }
+.s-냉장 { background: var(--fridge); } .s-냉동 { background: var(--freezer); } .s-실온 { background: var(--pantry); }
+.row .name { flex: 1; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
+.row .name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
+.chip { font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; font-variant-numeric: tabular-nums; background: var(--accent-soft); color: var(--accent); }
+.chip.warn { background: var(--warn-soft); color: var(--warn); }
+.chip.danger { background: var(--danger-soft); color: var(--danger); }
+.chip.plain { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+button, .btn { font: inherit; cursor: pointer; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 8px 12px; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
+button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
+.btn-sm { padding: 5px 9px; font-size: 13px; }
+.btn-ghost { border-color: transparent; background: transparent; color: var(--muted); }
+.form { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+.form .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.form .fields .full { grid-column: 1 / -1; }
+label { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
+input, select { font: inherit; font-size: 16px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); color: var(--ink); width: 100%; min-width: 0; }
+.quick { display: flex; flex-wrap: wrap; gap: 6px; }
+.quick button { padding: 5px 10px; font-size: 13px; border-radius: 999px; }
+.quick button.has { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.n { font-size: 11px; opacity: .7; font-variant-numeric: tabular-nums; }
+.group { display: flex; flex-direction: column; gap: 6px; }
+.seg { display: flex; gap: 6px; flex-wrap: wrap; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
+.recipe { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
+.recipe .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.recipe .title { font-family: var(--font-display); font-size: 21px; line-height: 1.2; }
+.meter { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
+.meter i { display: block; height: 100%; background: var(--accent); }
+.ings { display: flex; flex-wrap: wrap; gap: 4px; }
+.ing { font-size: 13px; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
+.ing.miss { background: transparent; color: var(--muted); border: 1px dashed var(--line); }
+.ing.hot { background: var(--danger-soft); color: var(--danger); }
+.ing.sauce:not(.miss) { background: transparent; color: var(--pantry); border: 1px solid var(--pantry); }
+.sauce-label { font-size: 12px; color: var(--muted); align-self: center; margin-right: 2px; }
+.actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.disclose { font-size: 11px; color: var(--muted); }
+.empty { padding: 20px 14px; text-align: center; color: var(--muted); font-size: 14px; }
+.check { width: 22px; height: 22px; flex: none; accent-color: var(--accent); }
+.done .name { text-decoration: line-through; color: var(--muted); }
+nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); display: flex; justify-content: center; z-index: 5; }
+nav.tabs .inner { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; max-width: 560px; }
+nav.tabs button { border: 0; border-radius: 0; background: transparent; padding: 10px 4px 12px; flex-direction: column; gap: 2px; color: var(--muted); font-size: 12px; }
+nav.tabs button svg { width: 22px; height: 22px; }
+nav.tabs button[aria-selected="true"] { color: var(--accent); font-weight: 600; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; z-index: 6; }
+.foot { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
+@media (prefers-reduced-motion: no-preference) { .meter i { transition: width .3s ease; } }
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+  <header class="top">
+    <div class="brand">냉장쿡<small>냉장고 속 재료로 오늘 뭐 해먹지</small></div>
+    <span class="ver">v0.4 시험판</span>
+  </header>
+
+  <div class="summary" aria-label="요약">
+    <div class="stat"><b id="statTotal">0</b><span>보관 중인 재료</span></div>
+    <div class="stat urgent"><b id="statUrgent">0</b><span>3일 안에 기한</span></div>
+    <div class="stat"><b id="statCook">0</b><span>바로 가능한 요리</span></div>
+  </div>
+
+  <div class="notice" id="sampleNotice" hidden>
+    <span>처음이라 예시 재료를 넣어 두었어요.</span>
+    <button class="btn-sm" id="clearSample">예시 지우고 시작</button>
+  </div>
+
+  <!-- 냉장고 탭 -->
+  <section id="tab-fridge" class="section">
+    <div class="form" id="addForm">
+      <h2>재료 넣기</h2>
+      <div class="seg cat-seg" id="addCat" role="group" aria-label="재료 종류"></div>
+      <div class="quick" id="quick" aria-label="눌러서 바로 넣기"></div>
+      <div class="fields">
+        <label class="full">재료 이름<input id="fName" placeholder="예: 두부" autocomplete="off"></label>
+        <label>보관<select id="fPlace"><option>냉장</option><option>냉동</option><option>실온</option></select></label>
+        <label>유통기한<input id="fDate" type="date"></label>
+      </div>
+      <button class="btn-primary" id="addBtn">냉장고에 넣기</button>
+    </div>
+    <h2>우리집 냉장고</h2>
+    <div class="seg cat-seg" id="catFilter" role="group" aria-label="종류별 보기"></div>
+    <div class="seg" id="placeFilter" role="group" aria-label="보관 위치">
+      <button aria-pressed="true" data-p="전체">모든 칸</button>
+      <button aria-pressed="false" data-p="냉장">냉장</button>
+      <button aria-pressed="false" data-p="냉동">냉동</button>
+      <button aria-pressed="false" data-p="실온">실온</button>
+    </div>
+    <div class="section" id="invList"></div>
+  </section>
+
+  <!-- 요리 탭 -->
+  <section id="tab-cook" class="section" hidden>
+    <h2>있는 재료로 만들 요리</h2>
+    <p class="disclose" style="margin:0">기한이 가까운 재료를 쓰는 요리가 먼저 나와요. 양념은 냉장고에 넣어둔 소스를 기준으로 표시하고, 소금·설탕·식용유는 있다고 가정했어요.</p>
+    <div class="seg" id="cuisineFilter" role="group" aria-label="요리 종류"></div>
+    <div id="recipeList" class="section"></div>
+  </section>
+
+  <!-- 장보기 탭 -->
+  <section id="tab-shop" class="section" hidden>
+    <h2>장보기 목록</h2>
+    <div class="form">
+      <div class="fields">
+        <label class="full">사야 할 재료<input id="sName" placeholder="예: 대파" autocomplete="off"></label>
+      </div>
+      <button class="btn-primary" id="sAdd">목록에 추가</button>
+    </div>
+    <div class="list" id="shopList"></div>
+    <p class="disclose" id="shopDisclose">구매 링크는 쿠팡·네이버쇼핑 검색으로 연결돼요. 제휴 링크로 바뀌면 냉장쿡이 일정 수수료를 받을 수 있으며, 그때 이 안내도 함께 바뀝니다.</p>
+  </section>
+
+  <div class="foot">
+    <span>재료 목록은 지금 쓰는 이 휴대폰 브라우저에만 저장돼요. 다른 기기와는 아직 공유되지 않아요.</span>
+    <span><button class="btn-sm btn-ghost" id="resetAll">전체 초기화</button><span id="resetConfirm" hidden> 정말 지울까요? <button class="btn-sm" id="resetYes">지우기</button> <button class="btn-sm btn-ghost" id="resetNo">취소</button></span></span>
+  </div>
+</div>
+
+<nav class="tabs" role="tablist">
+  <div class="inner">
+    <button role="tab" aria-selected="true" data-tab="fridge">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M5 10h14M8.5 6v1.5M8.5 13v3"/></svg>냉장고</button>
+    <button role="tab" aria-selected="false" data-tab="cook">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 11h18M5 11v6a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-6M9 7c0-1.5 1-2 1-3.5M14 7c0-1.5 1-2 1-3.5"/></svg>요리 추천</button>
+    <button role="tab" aria-selected="false" data-tab="shop">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h2l2 11h10l2-8H7.2"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="16.5" cy="19.5" r="1.3"/></svg>장보기</button>
+  </div>
+</nav>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+// ===== 기본 데이터 =====
+// 재료별 기본 보관 위치와 권장 보관 일수 (가정값, 포장 표기가 우선)
+const FOODS = {
+  "계란":["냉장",21],"우유":["냉장",10],"두부":["냉장",7],"대파":["냉장",7],"양파":["실온",30],"감자":["실온",30],
+  "돼지고기":["냉장",3],"소고기":["냉장",3],"닭고기":["냉장",2],"김치":["냉장",60],"애호박":["냉장",7],"버섯":["냉장",5],
+  "당근":["냉장",14],"햄":["냉장",14],"참치캔":["실온",365],"밥":["냉동",30],"콩나물":["냉장",3],"시금치":["냉장",4],
+  "배추":["냉장",14],"어묵":["냉장",7],"떡":["냉동",60],"만두":["냉동",90],"치즈":["냉장",30],"베이컨":["냉장",10],
+  "고추":["냉장",10],"마늘":["냉장",14],"식빵":["실온",5],"파스타면":["실온",365],"미역":["실온",365],
+  "양배추":["냉장",14],"우동면":["냉동",60],"토마토":["냉장",7],"피망":["냉장",7],"가지":["냉장",5],"연어":["냉장",2],
+  "새우":["냉동",90],"숙주":["냉장",3],"쌀국수":["실온",365],"청경채":["냉장",5],"순두부":["냉장",7],"라면":["실온",180],
+  "당면":["실온",365],"김":["실온",180],"단무지":["냉장",30],"오이":["냉장",7],"빵가루":["실온",180],"카레가루":["실온",365],
+  "부침가루":["실온",180],"전분":["실온",365],"레몬":["냉장",14],"무":["냉장",14]
+};
+// 소스·양념: [보관, 개봉 후 권장 일수] (가정값, 제품 표기가 우선)
+const SAUCES = {
+  "간장":["실온",365],"고추장":["냉장",365],"된장":["냉장",365],"고춧가루":["냉동",365],"참기름":["실온",180],"들기름":["냉장",60],
+  "식초":["실온",365],"설탕":["실온",730],"소금":["실온",730],"후추":["실온",365],"맛술":["실온",365],"올리고당":["실온",365],
+  "액젓":["냉장",365],"굴소스":["냉장",180],"케첩":["냉장",180],"마요네즈":["냉장",60],"머스타드":["냉장",180],"쯔유":["냉장",90],
+  "미소된장":["냉장",180],"두반장":["냉장",180],"춘장":["냉장",180],"마라소스":["실온",365],"카레가루":["실온",365],
+  "피시소스":["실온",365],"스리라차":["냉장",180],"올리브오일":["실온",365],"버터":["냉장",60],"토마토소스":["냉장",7],
+  "돈가스소스":["냉장",180],"데리야끼소스":["냉장",180],"식용유":["실온",365],"다진마늘":["냉동",90]
+};
+Object.assign(FOODS, SAUCES);
+const isSauce = n => n in SAUCES;
+Object.assign(FOODS, {
+  "브로콜리":["냉장",5],"깻잎":["냉장",5],"상추":["냉장",5],"부추":["냉장",4],"파프리카":["냉장",10],"사과":["냉장",30],"바나나":["실온",5],
+  "다짐육":["냉장",2],"오리고기":["냉장",3],"소시지":["냉장",14],
+  "오징어":["냉동",90],"고등어":["냉동",90],"멸치":["냉동",180],"바지락":["냉장",2],"게맛살":["냉장",14],
+  "요거트":["냉장",14],"생크림":["냉장",7],"깍두기":["냉장",30],"냉동밥":["냉동",30],"소면":["실온",365],"또띠아":["냉동",60]
+});
+// 재료 종류: 눌러서 바로 넣기 목록도 이 순서를 따름
+const CATS = {
+  "채소·과일":["대파","양파","감자","당근","애호박","버섯","배추","양배추","무","시금치","콩나물","숙주","고추","마늘","토마토","피망","파프리카","가지","오이","청경채","브로콜리","깻잎","상추","부추","레몬","사과","바나나"],
+  "고기":["돼지고기","소고기","닭고기","다짐육","오리고기","베이컨","햄","소시지"],
+  "해산물":["새우","연어","오징어","고등어","바지락","멸치","어묵","게맛살","참치캔","미역","김"],
+  "달걀·유제품":["계란","우유","치즈","버터","요거트","생크림"],
+  "두부·김치":["두부","순두부","김치","깍두기","단무지"],
+  "밥·면·빵":["밥","냉동밥","떡","만두","식빵","또띠아","라면","우동면","파스타면","쌀국수","당면","소면"],
+  "소스·양념":["간장","고추장","된장","고춧가루","참기름","들기름","굴소스","케첩","마요네즈","머스타드","식초","맛술","올리고당","액젓","다진마늘","쯔유","미소된장","두반장","춘장","마라소스","카레가루","피시소스","스리라차","돈가스소스","데리야끼소스","토마토소스","올리브오일","후추","소금","설탕","식용유"],
+  "가루·기타":["부침가루","빵가루","전분"]
+};
+const CAT_NAMES = Object.keys(CATS);
+const CAT_OF = {}; CAT_NAMES.forEach(c => CATS[c].forEach(n => CAT_OF[n] = c));
+const catOf = name => CAT_OF[norm(name)] || "가루·기타";
+const ALIAS = { "달걀":"계란","파":"대파","돈육":"돼지고기","삼겹살":"돼지고기","목살":"돼지고기","앞다리살":"돼지고기","소불고기":"소고기",
+  "닭":"닭고기","닭다리":"닭고기","표고버섯":"버섯","팽이버섯":"버섯","새송이":"버섯","느타리":"버섯","스팸":"햄","참치":"참치캔",
+  "떡볶이떡":"떡","냉동만두":"만두","슬라이스치즈":"치즈","청양고추":"고추","진간장":"간장","양조간장":"간장","국간장":"간장","까나리액젓":"액젓","멸치액젓":"액젓","미림":"맛술",
+  "토마토케첩":"케첩","마요":"마요네즈","고추가루":"고춧가루","미소":"미소된장","식용류":"식용유","올리고당시럽":"올리고당","빵":"식빵","스파게티":"파스타면","쌀밥":"밥","즉석밥":"밥",
+  "숙주나물":"숙주","방울토마토":"토마토","파프리카":"피망","연어회":"연어","칵테일새우":"새우","라면사리":"라면","우동사리":"우동면",
+  "녹말가루":"전분","감자전분":"전분","튀김가루":"부침가루","카레":"카레가루","소시지":"햄","비엔나":"햄","김밥김":"김" };
+const CUISINES = ["전체","한식","일식","중식","양식","분식","동남아"];
+
+// 레시피: 주재료만 (기본 양념 제외). q = 유튜브 검색어
+const RECIPES = [
+  // 한식
+  {c:"한식", n:"김치찌개", i:["김치","돼지고기","두부","대파"], q:"김치찌개 황금레시피"},
+  {c:"한식", n:"된장찌개", i:["두부","애호박","양파","감자","버섯"], q:"된장찌개 맛있게 끓이는법"},
+  {c:"한식", n:"계란말이", i:["계란","대파","당근"], q:"계란말이 쉽게"},
+  {c:"한식", n:"제육볶음", i:["돼지고기","양파","대파","고추"], q:"제육볶음 황금레시피"},
+  {c:"한식", n:"감자조림", i:["감자","양파"], q:"감자조림 레시피"},
+  {c:"한식", n:"두부조림", i:["두부","대파"], q:"두부조림 레시피"},
+  {c:"한식", n:"김치볶음밥", i:["김치","밥","계란","햄"], q:"김치볶음밥 레시피"},
+  {c:"한식", n:"콩나물국", i:["콩나물","대파","마늘"], q:"콩나물국 끓이는법"},
+  {c:"한식", n:"시금치나물", i:["시금치","마늘"], q:"시금치나물 무침"},
+  {c:"한식", n:"어묵볶음", i:["어묵","양파","당근"], q:"어묵볶음 레시피"},
+  {c:"한식", n:"소고기미역국", i:["소고기","미역","마늘"], q:"소고기미역국 끓이는법"},
+  {c:"한식", n:"닭볶음탕", i:["닭고기","감자","당근","양파","대파"], q:"닭볶음탕 레시피"},
+  {c:"한식", n:"참치김치찌개", i:["참치캔","김치","두부","대파"], q:"참치김치찌개"},
+  {c:"한식", n:"애호박전", i:["애호박","계란"], q:"애호박전 부치는법"},
+  {c:"한식", n:"버섯볶음", i:["버섯","양파"], q:"버섯볶음 반찬"},
+  {c:"한식", n:"계란국", i:["계란","대파"], q:"계란국 끓이는법"},
+  {c:"한식", n:"만둣국", i:["만두","계란","대파"], q:"만둣국 끓이는법"},
+  {c:"한식", n:"배추된장국", i:["배추","마늘"], q:"배추된장국 끓이는법"},
+  {c:"한식", n:"소불고기", i:["소고기","양파","대파","당근"], q:"소불고기 황금레시피"},
+  {c:"한식", n:"잡채", i:["당면","돼지고기","시금치","당근","양파","버섯"], q:"잡채 쉽게 만들기"},
+  {c:"한식", n:"순두부찌개", i:["순두부","계란","돼지고기","대파"], q:"순두부찌개 레시피"},
+  {c:"한식", n:"부대찌개", i:["햄","김치","라면","두부","대파"], q:"집에서 부대찌개"},
+  {c:"한식", n:"감자전", i:["감자","부침가루"], q:"감자전 바삭하게"},
+  // 일식
+  {c:"일식", n:"오야코동", i:["닭고기","계란","양파","대파","밥"], q:"오야코동 만들기"},
+  {c:"일식", n:"규동", i:["소고기","양파","계란","밥"], q:"규동 레시피"},
+  {c:"일식", n:"일본식 카레라이스", i:["감자","당근","양파","돼지고기","카레가루","밥"], q:"일본식 카레 만들기"},
+  {c:"일식", n:"돈카츠", i:["돼지고기","계란","빵가루","양배추"], q:"집에서 돈까스 만들기"},
+  {c:"일식", n:"야키소바", i:["우동면","돼지고기","양배추","양파","당근"], q:"야키소바 레시피"},
+  {c:"일식", n:"어묵우동", i:["우동면","어묵","대파"], q:"어묵우동 끓이는법"},
+  {c:"일식", n:"미소된장국", i:["두부","미역","대파"], q:"미소시루 만들기"},
+  {c:"일식", n:"오코노미야키", i:["양배추","계란","베이컨","부침가루"], q:"오코노미야키 만들기"},
+  {c:"일식", n:"연어덮밥", i:["연어","밥","양파"], q:"연어덮밥 사케동"},
+  // 중식
+  {c:"중식", n:"마파두부", i:["두부","돼지고기","대파","마늘"], q:"마파두부 레시피"},
+  {c:"중식", n:"토마토계란볶음", i:["토마토","계란","대파"], q:"토마토계란볶음"},
+  {c:"중식", n:"계란볶음밥", i:["밥","계란","대파","햄"], q:"중식 계란볶음밥"},
+  {c:"중식", n:"짜장밥", i:["돼지고기","양파","감자","애호박","춘장","밥"], q:"집에서 짜장 만들기"},
+  {c:"중식", n:"고추잡채", i:["돼지고기","피망","양파"], q:"고추잡채 레시피"},
+  {c:"중식", n:"탕수육", i:["돼지고기","전분","당근","양파","오이"], q:"집에서 탕수육"},
+  {c:"중식", n:"가지볶음", i:["가지","돼지고기","마늘"], q:"중식 가지볶음 어향가지"},
+  {c:"중식", n:"마라샹궈", i:["마라소스","청경채","버섯","어묵","소고기"], q:"집에서 마라샹궈"},
+  {c:"중식", n:"청경채볶음", i:["청경채","마늘"], q:"청경채볶음"},
+  // 양식
+  {c:"양식", n:"크림파스타", i:["파스타면","베이컨","우유","양파","버섯"], q:"우유로 크림파스타"},
+  {c:"양식", n:"알리오올리오", i:["파스타면","마늘","고추"], q:"알리오올리오 만들기"},
+  {c:"양식", n:"토마토파스타", i:["파스타면","토마토","양파","마늘"], q:"생토마토 파스타"},
+  {c:"양식", n:"버섯리조또", i:["밥","버섯","우유","양파","치즈"], q:"밥으로 리조또"},
+  {c:"양식", n:"오믈렛", i:["계란","우유","양파","햄"], q:"오믈렛 만들기"},
+  {c:"양식", n:"감자수프", i:["감자","양파","우유"], q:"감자수프 만들기"},
+  {c:"양식", n:"스테이크", i:["소고기","마늘","감자"], q:"집에서 스테이크 굽기"},
+  {c:"양식", n:"프렌치토스트", i:["식빵","계란","우유"], q:"프렌치토스트 만들기"},
+  {c:"양식", n:"햄치즈토스트", i:["식빵","계란","치즈","햄"], q:"햄치즈토스트"},
+  // 분식
+  {c:"분식", n:"떡볶이", i:["떡","어묵","대파"], q:"집에서 떡볶이 만들기"},
+  {c:"분식", n:"라볶이", i:["떡","라면","어묵","계란"], q:"라볶이 레시피"},
+  {c:"분식", n:"김밥", i:["밥","김","계란","단무지","햄","당근","시금치"], q:"집김밥 싸는법"},
+  {c:"분식", n:"계란라면", i:["라면","계란","대파"], q:"라면 맛있게 끓이는법"},
+  {c:"분식", n:"어묵탕", i:["어묵","대파","무"], q:"어묵탕 끓이는법"},
+  // 동남아
+  {c:"동남아", n:"팟타이", i:["쌀국수","계란","숙주","새우"], q:"팟타이 만들기"},
+  {c:"동남아", n:"나시고랭", i:["밥","계란","새우","양파"], q:"나시고랭 레시피"},
+  {c:"동남아", n:"소고기쌀국수", i:["쌀국수","소고기","숙주","양파"], q:"집에서 쌀국수"},
+  {c:"동남아", n:"새우볶음밥", i:["밥","새우","계란","대파"], q:"새우볶음밥 레시피"},
+  {c:"동남아", n:"똠얌꿍", i:["새우","버섯","토마토","레몬"], q:"똠얌꿍 집에서"}
+];
+
+// 요리별 필요한 소스·양념 (소금·설탕·식용유처럼 거의 모든 집에 있는 것은 생략)
+const SAUCE_OF = {
+  "김치찌개":["고춧가루","간장"],"된장찌개":["된장","고춧가루"],"계란말이":[],"제육볶음":["고추장","고춧가루","간장","다진마늘"],
+  "감자조림":["간장","올리고당"],"두부조림":["간장","고춧가루"],"김치볶음밥":["참기름","간장"],"콩나물국":["액젓"],
+  "시금치나물":["참기름","간장"],"어묵볶음":["간장","올리고당"],"소고기미역국":["간장","참기름"],"닭볶음탕":["고추장","고춧가루","간장"],
+  "참치김치찌개":["고춧가루"],"애호박전":[],"버섯볶음":["굴소스"],"계란국":["액젓"],"만둣국":["간장"],"배추된장국":["된장"],
+  "소불고기":["간장","참기름","다진마늘"],"잡채":["간장","참기름"],"순두부찌개":["고춧가루","간장"],"부대찌개":["고춧가루","간장","다진마늘"],
+  "감자전":[],"오야코동":["쯔유","맛술"],"규동":["간장","맛술"],"일본식 카레라이스":["버터"],"돈카츠":["돈가스소스"],
+  "야키소바":["돈가스소스","굴소스"],"어묵우동":["쯔유"],"미소된장국":["미소된장"],"오코노미야키":["돈가스소스","마요네즈"],
+  "연어덮밥":["간장","맛술"],"마파두부":["두반장","굴소스","고춧가루"],"토마토계란볶음":["굴소스"],"계란볶음밥":["굴소스","간장"],
+  "짜장밥":[],"고추잡채":["굴소스","간장"],"탕수육":["식초","간장"],"가지볶음":["두반장","간장","식초"],"마라샹궈":[],
+  "청경채볶음":["굴소스"],"크림파스타":["버터"],"알리오올리오":["올리브오일"],"토마토파스타":["토마토소스","올리브오일"],
+  "버섯리조또":["버터"],"오믈렛":["버터","케첩"],"감자수프":["버터"],"스테이크":["버터","올리브오일"],"프렌치토스트":["버터"],
+  "햄치즈토스트":["버터","케첩"],"떡볶이":["고추장","고춧가루"],"라볶이":["고추장","고춧가루"],"김밥":["참기름"],"계란라면":[],
+  "어묵탕":["간장","액젓"],"팟타이":["피시소스","식초"],"나시고랭":["굴소스","스리라차"],"소고기쌀국수":["피시소스"],
+  "새우볶음밥":["굴소스","피시소스"],"똠얌꿍":["피시소스"]
+};
+RECIPES.forEach(r => r.s = SAUCE_OF[r.n] || []);
+
+// ===== 저장소 (이 브라우저에만 저장) =====
+const KEY = "naengjangcook.v1";
+function load() { try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { return null; } }
+function save() { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) {} }
+
+const today = () => { const d = new Date(); d.setHours(0,0,0,0); return d; };
+const iso = d => { const z = new Date(d.getTime() - d.getTimezoneOffset()*60000); return z.toISOString().slice(0,10); };
+const addDays = n => { const d = today(); d.setDate(d.getDate()+n); return iso(d); };
+const daysLeft = s => s ? Math.round((new Date(s+"T00:00:00") - today()) / 86400000) : null;
+const uid = () => Math.random().toString(36).slice(2,9);
+const norm = s => { const t = s.trim().replace(/\s+/g,""); return ALIAS[t] || t; };
+
+function sample() {
+  const mk = (n, d) => ({ id: uid(), name: n, place: (FOODS[n]||["냉장"])[0], exp: addDays(d), sample: true });
+  return { items: [mk("두부",1), mk("김치",40), mk("돼지고기",2), mk("계란",12), mk("양파",20), mk("애호박",3), mk("밥",25), mk("우유",5), mk("간장",200), mk("고추장",150), mk("참기름",90)],
+           shop: [{ id: uid(), name: "대파", done: false, sample: true }], filter: "전체", tab: "fridge" };
+}
+let state = load() || sample();
+if (!["전체","냉장","냉동","실온"].includes(state.filter)) state.filter = "전체";
+
+// ===== 렌더 =====
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const ytUrl = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
+const coupangUrl = n => "https://www.coupang.com/np/search?q=" + encodeURIComponent(n);
+const naverUrl = n => "https://search.shopping.naver.com/search/all?query=" + encodeURIComponent(n + " 산지직송");
+
+function dChip(s) {
+  const d = daysLeft(s);
+  if (d === null) return '<span class="chip plain">기한 없음</span>';
+  if (d < 0) return `<span class="chip danger">${-d}일 지남</span>`;
+  if (d === 0) return '<span class="chip danger">오늘까지</span>';
+  if (d <= 3) return `<span class="chip warn">D-${d}</span>`;
+  return `<span class="chip">D-${d}</span>`;
+}
+
+function owned() { const m = {}; state.items.forEach(it => { const k = norm(it.name); const d = daysLeft(it.exp); if (!(k in m) || (d !== null && d < m[k])) m[k] = d === null ? 999 : d; }); return m; }
+
+function scoreRecipes(all) {
+  const own = owned();
+  return RECIPES.map(r => {
+    const have = r.i.filter(x => x in own), miss = r.i.filter(x => !(x in own));
+    const hot = have.filter(x => own[x] <= 3);
+    const sMiss = r.s.filter(x => !(x in own));
+    const ratio = have.length / r.i.length;
+    return { ...r, have, miss, hot, sMiss, ratio, score: ratio * 100 + hot.length * 25 - miss.length * 5 - sMiss.length * 2 };
+  }).filter(r => all || r.have.length > 0).sort((a, b) => b.score - a.score);
+}
+
+function renderStats() {
+  $("statTotal").textContent = state.items.length;
+  $("statUrgent").textContent = state.items.filter(it => { const d = daysLeft(it.exp); return d !== null && d <= 3; }).length;
+  $("statCook").textContent = scoreRecipes().filter(r => r.miss.length === 0).length;
+  $("sampleNotice").hidden = !state.items.some(it => it.sample) && !state.shop.some(s => s.sample);
+}
+
+function renderAdd() {
+  const ac = state.addCat || CAT_NAMES[0];
+  $("addCat").innerHTML = CAT_NAMES.map(c => `<button aria-pressed="${c === ac}" data-ac="${c}">${c}</button>`).join("");
+  const have = new Set(state.items.map(it => norm(it.name)));
+  $("quick").innerHTML = CATS[ac].map(n => `<button data-quick="${n}" class="${have.has(norm(n)) ? "has" : ""}">${n}${have.has(norm(n)) ? " ✓" : ""}</button>`).join("");
+}
+
+function invRow(it) {
+  return `
+    <div class="row">
+      <span class="stripe s-${it.place}" aria-hidden="true"></span>
+      <span class="name">${esc(it.name)}<small>${it.place}${it.exp ? " · " + it.exp.slice(5).replace("-", "/") + "까지" : ""}${it.sample ? " · 예시" : ""}</small></span>
+      ${dChip(it.exp)}
+      <button class="btn-sm" data-use="${it.id}" aria-label="${esc(it.name)} 다 먹음">다 먹음</button>
+    </div>`;
+}
+
+function renderInv() {
+  const f = state.filter, cf = state.catFilter || "전체";
+  document.querySelectorAll("#placeFilter button").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === f));
+  const count = c => state.items.filter(it => c === "전체" || catOf(it.name) === c).length;
+  $("catFilter").innerHTML = ["전체", ...CAT_NAMES].filter(c => c === "전체" || c === cf || count(c) > 0)
+    .map(c => `<button aria-pressed="${c === cf}" data-cf="${c}">${c} <span class="n">${count(c)}</span></button>`).join("");
+  const items = state.items.filter(it => (f === "전체" || it.place === f) && (cf === "전체" || catOf(it.name) === cf))
+    .sort((a, b) => (daysLeft(a.exp) ?? 9999) - (daysLeft(b.exp) ?? 9999));
+  if (!items.length) {
+    $("invList").innerHTML = `<div class="list"><div class="empty">${state.items.length ? "이 조건에 맞는 재료가 없어요." : "아직 넣은 재료가 없어요.<br>위에서 종류를 고르고 재료를 눌러 바로 넣어 보세요."}</div></div>`;
+    return;
+  }
+  // 종류별로 묶어서 보여주기 (각 묶음 안에서는 기한 임박 순)
+  const groups = CAT_NAMES.map(c => [c, items.filter(it => catOf(it.name) === c)]).filter(([, l]) => l.length);
+  $("invList").innerHTML = groups.map(([c, l]) => `
+    <div class="group">
+      <h3>${c} <span class="n">${l.length}</span></h3>
+      <div class="list">${l.map(invRow).join("")}</div>
+    </div>`).join("");
+}
+
+function renderRecipes() {
+  const cz = state.cuisine || "전체";
+  $("cuisineFilter").innerHTML = CUISINES.map(c => `<button aria-pressed="${c === cz}" data-cz="${c}">${c}</button>`).join("");
+  // 전체: 재료가 하나라도 있는 요리만 / 종류 선택: 그 종류 전부 (있는 재료 많은 순)
+  const list = cz === "전체" ? scoreRecipes() : scoreRecipes(true).filter(r => r.c === cz);
+  $("recipeList").innerHTML = list.length ? list.map(r => `
+    <article class="recipe">
+      <div class="head"><span class="title">${r.n} <span class="chip plain">${r.c}</span></span>
+        <span class="chip ${r.miss.length ? "plain" : r.sMiss.length ? "warn" : ""}">${r.miss.length ? r.miss.length + "개 부족" : r.sMiss.length ? "양념만 부족" : "바로 가능"}</span></div>
+      <div class="meter" aria-label="재료 ${r.have.length}/${r.i.length}개 보유"><i style="width:${Math.round(r.ratio*100)}%"></i></div>
+      <div class="ings">${r.i.map(x => `<span class="ing ${r.miss.includes(x) ? "miss" : r.hot.includes(x) ? "hot" : ""}">${x}${r.hot.includes(x) ? " · 임박" : ""}</span>`).join("")}</div>
+      ${r.s.length ? `<div class="ings"><span class="sauce-label">양념</span>${r.s.map(x => `<span class="ing sauce ${r.sMiss.includes(x) ? "miss" : ""}">${x}</span>`).join("")}</div>` : ""}
+      <div class="actions">
+        <a class="btn btn-sm btn-primary" href="${ytUrl(r.q)}" target="_blank" rel="noopener">유튜브 영상 보기</a>
+        ${r.miss.length + r.sMiss.length ? `<button class="btn-sm" data-addmiss="${r.n}">부족한 ${r.miss.length ? "재료" : "양념"} 장보기에 담기</button>` : ""}
+      </div>
+    </article>`).join("") : '<div class="list"><div class="empty">냉장고에 재료를 넣으면 만들 수 있는 요리가 여기 나와요.</div></div>';
+}
+
+function renderShop() {
+  const items = [...state.shop].sort((a, b) => a.done - b.done);
+  $("shopList").innerHTML = items.length ? items.map(s => `
+    <div class="row ${s.done ? "done" : ""}">
+      <input type="checkbox" class="check" id="chk-${s.id}" data-toggle="${s.id}" ${s.done ? "checked" : ""} aria-label="${esc(s.name)} 샀음">
+      <span class="name">${esc(s.name)}${s.sample ? "<small>예시</small>" : ""}</span>
+      ${s.done ? `<button class="btn-sm" data-tofridge="${s.id}">냉장고로</button>` : `
+        <a class="btn btn-sm" href="${coupangUrl(s.name)}" target="_blank" rel="noopener">쿠팡</a>
+        <a class="btn btn-sm" href="${naverUrl(s.name)}" target="_blank" rel="noopener">산지직송</a>`}
+      <button class="btn-sm btn-ghost" data-del="${s.id}" aria-label="${esc(s.name)} 삭제">✕</button>
+    </div>`).join("") : '<div class="empty">요리 추천에서 부족한 재료를 담거나, 위에서 직접 추가해 보세요.</div>';
+}
+
+function renderTabs() {
+  ["fridge","cook","shop"].forEach(t => { $("tab-" + t).hidden = state.tab !== t; });
+  document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === state.tab));
+}
+
+function render() { renderStats(); renderAdd(); renderInv(); renderRecipes(); renderShop(); renderTabs(); save(); }
+
+let toastT;
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 1800); }
+
+// ===== 동작 =====
+function suggest() {
+  const k = norm($("fName").value);
+  if (FOODS[k]) { $("fPlace").value = FOODS[k][0]; $("fDate").value = addDays(FOODS[k][1]); }
+}
+function addItem(name, place, exp) {
+  name = name.trim(); if (!name) { toast("재료 이름을 적어 주세요"); return; }
+  state.items.push({ id: uid(), name, place, exp: exp || "" });
+  render(); toast(`${name} 넣었어요`);
+}
+
+$("addCat").addEventListener("click", e => { if (e.target.dataset.ac) { state.addCat = e.target.dataset.ac; render(); } });
+$("catFilter").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { state.catFilter = b.dataset.cf; render(); } });
+$("quick").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return; const n = b.dataset.quick;
+  if (isSauce(norm(n)) && state.items.some(it => norm(it.name) === norm(n))) { toast(`${n}은(는) 이미 있어요`); return; }
+  const f = FOODS[n] || FOODS[norm(n)] || ["냉장", 7];
+  addItem(n, f[0], addDays(f[1]));
+});
+$("fName").addEventListener("input", suggest);
+$("addBtn").addEventListener("click", () => {
+  addItem($("fName").value, $("fPlace").value, $("fDate").value);
+  $("fName").value = ""; $("fDate").value = ""; $("fName").focus();
+});
+$("fName").addEventListener("keydown", e => { if (e.key === "Enter") $("addBtn").click(); });
+$("placeFilter").addEventListener("click", e => { if (e.target.dataset.p) { state.filter = e.target.dataset.p; render(); } });
+$("invList").addEventListener("click", e => {
+  const id = e.target.dataset.use; if (!id) return;
+  const it = state.items.find(x => x.id === id);
+  state.items = state.items.filter(x => x.id !== id); render(); toast(`${it.name} 정리했어요`);
+});
+$("cuisineFilter").addEventListener("click", e => { if (e.target.dataset.cz) { state.cuisine = e.target.dataset.cz; render(); } });
+$("recipeList").addEventListener("click", e => {
+  const n = e.target.dataset.addmiss; if (!n) return;
+  const r = scoreRecipes(true).find(x => x.n === n); let c = 0;
+  [...r.miss, ...r.sMiss].forEach(m => { if (!state.shop.some(s => norm(s.name) === m && !s.done)) { state.shop.push({ id: uid(), name: m, done: false }); c++; } });
+  render(); toast(c ? `${c}개 장보기에 담았어요` : "이미 담겨 있어요");
+});
+$("sAdd").addEventListener("click", () => {
+  const n = $("sName").value.trim(); if (!n) { toast("재료 이름을 적어 주세요"); return; }
+  state.shop.push({ id: uid(), name: n, done: false }); $("sName").value = ""; render();
+});
+$("sName").addEventListener("keydown", e => { if (e.key === "Enter") $("sAdd").click(); });
+$("shopList").addEventListener("change", e => {
+  const id = e.target.dataset.toggle; if (!id) return;
+  const s = state.shop.find(x => x.id === id); s.done = e.target.checked; render();
+});
+$("shopList").addEventListener("click", e => {
+  const del = e.target.dataset.del, tf = e.target.dataset.tofridge;
+  if (del) { state.shop = state.shop.filter(x => x.id !== del); render(); }
+  if (tf) {
+    const s = state.shop.find(x => x.id === tf); const k = norm(s.name); const f = FOODS[k] || ["냉장", 7];
+    state.items.push({ id: uid(), name: s.name, place: f[0], exp: addDays(f[1]) });
+    state.shop = state.shop.filter(x => x.id !== tf); render(); toast(`${s.name} 냉장고에 넣었어요`);
+  }
+});
+document.querySelector("nav.tabs").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return; state.tab = b.dataset.tab; render(); window.scrollTo(0, 0);
+});
+$("clearSample").addEventListener("click", () => {
+  state.items = state.items.filter(x => !x.sample); state.shop = state.shop.filter(x => !x.sample); render(); toast("예시를 지웠어요");
+});
+$("resetAll").addEventListener("click", () => { $("resetConfirm").hidden = false; });
+$("resetNo").addEventListener("click", () => { $("resetConfirm").hidden = true; });
+$("resetYes").addEventListener("click", () => {
+  state = { items: [], shop: [], filter: "전체", tab: "fridge" }; $("resetConfirm").hidden = true; render(); toast("모두 지웠어요");
+});
+
+render();
+</script>
+
+<script>
+// 오프라인에서도 열리도록 서비스 워커 등록
+if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {})); }
+</script>
+</body>
+</html>
