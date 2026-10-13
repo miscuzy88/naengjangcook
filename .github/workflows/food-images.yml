@@ -1,8 +1,6 @@
 name: AI 요리 사진 만들기
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "17 * * * *"  # 사진이 다 만들어질 때까지 매시간 이어서 (다 있으면 바로 끝남)
   push:
     branches: [main]
     paths: ["tools/food_prompts.json", "tools/gen_food_images.py", ".github/workflows/food-images.yml"]
