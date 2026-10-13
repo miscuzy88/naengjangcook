@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1F7A55">
+<meta name="theme-color" content="#F4F5F4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -15,192 +15,279 @@
 <title>냉장쿡</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap">
 <style>
-/* Layout: 한 화면 모바일 앱. 상단 요약, 가운데 탭 콘텐츠, 하단 고정 탭바. 냉장고 칸(냉장/냉동/실온)을 색 띠로 구분. */
+/* Layout: 밝은 회색 바탕 위 흰 카드. 상단 큰 제목, 신선도 막대 목록, 하단 탭바 가운데 + 버튼, 재료 넣기는 아래에서 올라오는 창. */
 :root {
-  --bg: #F2F6F5;
-  --surface: #FFFFFF;
-  --ink: #17302B;
-  --muted: #5B716C;
-  --line: #D6E2DF;
-  --accent: #1F7A55;
-  --accent-soft: #DDF0E6;
-  --fridge: #3C7FB0;
-  --freezer: #6A5FB8;
-  --pantry: #A5793A;
-  --warn: #B46A00;
-  --warn-soft: #FFF0D6;
-  --danger: #C2412D;
-  --danger-soft: #FCE3DE;
-  --font-display: "Do Hyeon", "IBM Plex Sans KR", system-ui, sans-serif;
-  --font-body: "IBM Plex Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --bg: #F4F5F4;
+  --card: #FFFFFF;
+  --ink: #1B1F1D;
+  --sub: #7A827E;
+  --faint: #B4BAB7;
+  --line: #ECEEED;
+  --track: #EEF0EF;
+  --green: #22C17A;
+  --green-ink: #12985C;
+  --green-soft: #E3F7EC;
+  --amber: #F2A93B;
+  --amber-soft: #FFF3DF;
+  --red: #EE5A4A;
+  --red-soft: #FDE8E5;
+  --shadow: 0 1px 2px rgba(20, 30, 25, .04), 0 4px 16px rgba(20, 30, 25, .05);
+  --font: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
 }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
-    --bg: #0F1817; --surface: #172422; --ink: #E3EEEB; --muted: #93AAA4; --line: #29403B;
-    --accent: #5CC795; --accent-soft: #1C3A2E; --fridge: #74B0DD; --freezer: #A79CF0; --pantry: #D7A866;
-    --warn: #F0B04A; --warn-soft: #3A2C12; --danger: #F07A66; --danger-soft: #3D1E19;
+    --bg: #111413; --card: #1B201E; --ink: #EEF2F0; --sub: #9AA39F; --faint: #5E6763; --line: #262C29; --track: #2A302D;
+    --green: #34D68B; --green-ink: #4BE19B; --green-soft: #18352A; --amber: #F5B656; --amber-soft: #3A2E17;
+    --red: #F27566; --red-soft: #3E211D; --shadow: 0 1px 2px rgba(0,0,0,.3);
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
-  --bg: #0F1817; --surface: #172422; --ink: #E3EEEB; --muted: #93AAA4; --line: #29403B;
-  --accent: #5CC795; --accent-soft: #1C3A2E; --fridge: #74B0DD; --freezer: #A79CF0; --pantry: #D7A866;
-  --warn: #F0B04A; --warn-soft: #3A2C12; --danger: #F07A66; --danger-soft: #3D1E19;
+  --bg: #111413; --card: #1B201E; --ink: #EEF2F0; --sub: #9AA39F; --faint: #5E6763; --line: #262C29; --track: #2A302D;
+  --green: #34D68B; --green-ink: #4BE19B; --green-soft: #18352A; --amber: #F5B656; --amber-soft: #3A2E17;
+  --red: #F27566; --red-soft: #3E211D; --shadow: 0 1px 2px rgba(0,0,0,.3);
   color-scheme: dark;
 }
-* { box-sizing: border-box; }
-body { background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.5; }
-.wrap { max-width: 560px; margin: 0 auto; padding-inline: 16px; padding-block: 16px calc(96px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 16px; }
-header.top { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
-.brand { font-family: var(--font-display); font-size: 32px; line-height: 1; color: var(--accent); }
-.brand small { display: block; font-family: var(--font-body); font-size: 12px; color: var(--muted); margin-top: 4px; letter-spacing: .02em; }
-.ver { font-size: 11px; color: var(--muted); }
-h2 { font-family: var(--font-display); font-weight: 400; font-size: 22px; margin: 0; text-wrap: balance; }
-h3 { font-size: 13px; font-weight: 600; letter-spacing: .06em; color: var(--muted); margin: 0; }
-.summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 10px 12px; }
-.stat b { display: block; font-family: var(--font-display); font-size: 26px; font-weight: 400; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.stat span { font-size: 12px; color: var(--muted); }
-.stat.urgent b { color: var(--danger); }
-.notice { background: var(--warn-soft); color: var(--ink); border-radius: 10px; padding: 10px 12px; font-size: 13px; display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
-.section { display: flex; flex-direction: column; gap: 8px; }
-.list { display: flex; flex-direction: column; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
-.row { display: flex; align-items: center; gap: 10px; padding: 11px 12px; border-top: 1px solid var(--line); min-width: 0; }
-.row:first-child { border-top: 0; }
-.stripe { width: 4px; align-self: stretch; border-radius: 2px; flex: none; }
-.s-냉장 { background: var(--fridge); } .s-냉동 { background: var(--freezer); } .s-실온 { background: var(--pantry); }
-.row .name { flex: 1; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
-.row .name small { display: block; font-weight: 400; color: var(--muted); font-size: 12px; }
-.chip { font-size: 12px; font-weight: 600; padding: 3px 8px; border-radius: 999px; white-space: nowrap; font-variant-numeric: tabular-nums; background: var(--accent-soft); color: var(--accent); }
-.chip.warn { background: var(--warn-soft); color: var(--warn); }
-.chip.danger { background: var(--danger-soft); color: var(--danger); }
-.chip.plain { background: transparent; color: var(--muted); border: 1px solid var(--line); }
-button, .btn { font: inherit; cursor: pointer; border-radius: 10px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); padding: 8px 12px; font-size: 14px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; gap: 4px; }
-button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
-.btn-primary { background: var(--accent); border-color: var(--accent); color: var(--surface); font-weight: 600; }
-.btn-sm { padding: 5px 9px; font-size: 13px; }
-.btn-ghost { border-color: transparent; background: transparent; color: var(--muted); }
-.form { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
-.form .fields { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.form .fields .full { grid-column: 1 / -1; }
-label { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 4px; }
-input, select { font: inherit; font-size: 16px; padding: 9px 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--bg); color: var(--ink); width: 100%; min-width: 0; }
-.quick { display: flex; flex-wrap: wrap; gap: 6px; }
-.quick button { padding: 5px 10px; font-size: 13px; border-radius: 999px; }
-.quick button.has { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
-.n { font-size: 11px; opacity: .7; font-variant-numeric: tabular-nums; }
-.group { display: flex; flex-direction: column; gap: 6px; }
-.seg { display: flex; gap: 6px; flex-wrap: wrap; }
-.seg button[aria-pressed="true"] { background: var(--ink); color: var(--surface); border-color: var(--ink); }
-.recipe { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-.recipe .head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
-.recipe .title { font-family: var(--font-display); font-size: 21px; line-height: 1.2; }
-.meter { height: 6px; background: var(--line); border-radius: 3px; overflow: hidden; }
-.meter i { display: block; height: 100%; background: var(--accent); }
-.ings { display: flex; flex-wrap: wrap; gap: 4px; }
-.ing { font-size: 13px; padding: 2px 8px; border-radius: 6px; background: var(--accent-soft); color: var(--accent); }
-.ing.miss { background: transparent; color: var(--muted); border: 1px dashed var(--line); }
-.ing.hot { background: var(--danger-soft); color: var(--danger); }
-.ing.sauce:not(.miss) { background: transparent; color: var(--pantry); border: 1px solid var(--pantry); }
-.sauce-label { font-size: 12px; color: var(--muted); align-self: center; margin-right: 2px; }
-.actions { display: flex; flex-wrap: wrap; gap: 6px; }
-.disclose { font-size: 11px; color: var(--muted); }
-.empty { padding: 20px 14px; text-align: center; color: var(--muted); font-size: 14px; }
-.check { width: 22px; height: 22px; flex: none; accent-color: var(--accent); }
-.done .name { text-decoration: line-through; color: var(--muted); }
-nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; background: var(--surface); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); display: flex; justify-content: center; z-index: 5; }
-nav.tabs .inner { display: grid; grid-template-columns: repeat(3, 1fr); width: 100%; max-width: 560px; }
-nav.tabs button { border: 0; border-radius: 0; background: transparent; padding: 10px 4px 12px; flex-direction: column; gap: 2px; color: var(--muted); font-size: 12px; }
-nav.tabs button svg { width: 22px; height: 22px; }
-nav.tabs button[aria-selected="true"] { color: var(--accent); font-weight: 600; }
-.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(76px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 8px 14px; border-radius: 999px; font-size: 13px; z-index: 6; }
-.foot { font-size: 12px; color: var(--muted); display: flex; flex-direction: column; gap: 6px; }
-@media (prefers-reduced-motion: no-preference) { .meter i { transition: width .3s ease; } }
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
+.wrap { max-width: 520px; margin: 0 auto; padding-inline: 20px; padding-block: 20px calc(110px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 18px; }
+button, .btn { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; text-decoration: none; }
+button:focus-visible, .btn:focus-visible, input:focus-visible, select:focus-visible { outline: 2px solid var(--green); outline-offset: 2px; border-radius: 8px; }
+svg { display: block; }
+.hidden-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+/* 머리 */
+.top { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.title { font-size: 28px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; margin: 0; text-wrap: balance; }
+.title.green { color: var(--green-ink); }
+.title small { display: block; font-size: 22px; font-weight: 400; color: var(--sub); letter-spacing: -0.02em; }
+.date { font-size: 13px; color: var(--sub); margin-top: 6px; }
+.circle-btn { width: 44px; height: 44px; border-radius: 50%; background: var(--card); box-shadow: var(--shadow); display: grid; place-items: center; flex: none; }
+
+/* 검색, 요약 칸 */
+.search { display: flex; align-items: center; gap: 10px; background: var(--card); border-radius: 14px; padding: 0 14px; box-shadow: var(--shadow); }
+.search svg { color: var(--faint); flex: none; }
+.search input { border: 0; background: transparent; padding: 13px 0; font: inherit; font-size: 16px; color: var(--ink); width: 100%; min-width: 0; outline: none; }
+.search input::placeholder { color: var(--faint); }
+.tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.tile { background: var(--card); border-radius: 16px; padding: 14px 16px; box-shadow: var(--shadow); display: flex; justify-content: space-between; align-items: center; text-align: left; border: 1.5px solid transparent; }
+.tile span { font-size: 13px; color: var(--sub); }
+.tile b { font-size: 22px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.tile.soon b { color: var(--amber); }
+.tile.over b { color: var(--red); }
+.tile[aria-pressed="true"] { border-color: currentColor; }
+.tile.soon[aria-pressed="true"] { border-color: var(--amber); }
+.tile.over[aria-pressed="true"] { border-color: var(--red); }
+
+/* 칩 */
+.chips { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; margin-inline: -20px; padding-inline: 20px; padding-block: 2px; }
+.chips::-webkit-scrollbar { display: none; }
+.chip { flex: none; white-space: nowrap; padding: 8px 14px; border-radius: 999px; background: var(--card); font-size: 14px; color: var(--sub); box-shadow: var(--shadow); }
+.chip[aria-pressed="true"] { background: var(--ink); color: var(--card); }
+.chip .n { font-size: 12px; opacity: .65; margin-left: 2px; font-variant-numeric: tabular-nums; }
+
+/* 목록 머리 */
+.listhead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; white-space: nowrap; font-size: 14px; color: var(--sub); }
+.listhead b { color: var(--green-ink); font-weight: 500; }
+.seg { display: inline-flex; background: var(--track); border-radius: 10px; padding: 3px; }
+.seg button { white-space: nowrap; padding: 5px 10px; border-radius: 8px; font-size: 13px; color: var(--sub); }
+.seg button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: var(--shadow); font-weight: 500; }
+select.sort { border: 0; background: transparent; color: var(--sub); font: inherit; font-size: 14px; padding: 4px 0; }
+
+/* 재료 카드 */
+.items { display: flex; flex-direction: column; gap: 10px; }
+.item { background: var(--card); border-radius: 18px; padding: 16px 16px 14px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px; }
+.item .row1 { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; min-width: 0; }
+.item .nm { font-size: 17px; font-weight: 700; min-width: 0; overflow-wrap: anywhere; }
+.item .tag { font-size: 12px; font-weight: 400; color: var(--sub); margin-left: 6px; }
+.item .exp { font-size: 12px; color: var(--faint); white-space: nowrap; font-variant-numeric: tabular-nums; }
+.item .row2 { display: flex; align-items: center; gap: 12px; }
+.bar { position: relative; flex: 1; height: 46px; }
+.bar .track { position: absolute; left: 0; right: 0; top: 26px; height: 8px; border-radius: 4px; background: var(--track); }
+.bar .fill { position: absolute; left: 0; top: 26px; height: 8px; border-radius: 4px; background: var(--green); }
+.bar .fill::before { content: ""; position: absolute; left: 3px; top: 2px; width: 4px; height: 4px; border-radius: 50%; background: var(--card); opacity: .9; }
+.badge { position: absolute; top: 10px; width: 42px; height: 42px; border-radius: 50%; background: var(--card); border: 1.5px solid var(--ink); display: grid; place-items: center; font-size: 12px; font-weight: 500; font-variant-numeric: tabular-nums; transform: translateX(-50%); }
+.badge svg { position: absolute; top: -13px; left: 50%; transform: translateX(-50%); }
+.st-soon .fill { background: var(--amber); } .st-soon .badge { border-color: var(--amber); color: var(--amber); }
+.st-over .badge { border-color: var(--red); color: var(--red); }
+.st-none .fill { background: var(--faint); }
+.done-btn { flex: none; width: 36px; height: 36px; border-radius: 50%; background: var(--track); display: grid; place-items: center; color: var(--sub); }
+.done-btn:hover { background: var(--green-soft); color: var(--green-ink); }
+.sample-note { display: flex; justify-content: space-between; align-items: center; gap: 10px; font-size: 13px; color: var(--sub); background: var(--card); border-radius: 14px; padding: 10px 14px; box-shadow: var(--shadow); }
+.link { color: var(--green-ink); font-weight: 500; font-size: 14px; }
+.empty { background: var(--card); border-radius: 18px; padding: 36px 20px; text-align: center; color: var(--sub); font-size: 14px; box-shadow: var(--shadow); }
+
+/* 요리 카드 */
+.mine { display: flex; flex-direction: column; gap: 10px; }
+.mine .head { display: flex; justify-content: space-between; align-items: center; }
+.mine .head span { font-size: 15px; }
+.minechips { display: flex; flex-wrap: wrap; gap: 6px; }
+.mchip { padding: 6px 11px; border-radius: 999px; background: var(--card); font-size: 13px; box-shadow: var(--shadow); }
+.mchip.hot { background: var(--amber-soft); color: var(--amber); box-shadow: none; }
+.recipes { display: flex; flex-direction: column; gap: 12px; }
+.recipe { background: var(--card); border-radius: 20px; box-shadow: var(--shadow); display: grid; grid-template-columns: 104px 1fr; overflow: hidden; }
+.thumb { display: grid; place-items: center; font-size: 46px; min-height: 100%; }
+.th-한식 { background: #FBEDE6; } .th-일식 { background: #F1ECF8; } .th-중식 { background: #FBE9E9; }
+.th-양식 { background: #FFF4DE; } .th-분식 { background: #FDE9EF; } .th-동남아 { background: #E6F4EE; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .thumb { filter: saturate(.9); background: var(--track); } }
+:root[data-theme="dark"] .thumb { background: var(--track); }
+.rbody { padding: 14px 16px; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.best { font-size: 12px; color: var(--green-ink); font-weight: 500; }
+.rname { font-size: 17px; font-weight: 700; letter-spacing: -0.02em; }
+.meta { display: flex; gap: 12px; font-size: 12px; color: var(--sub); align-items: center; flex-wrap: wrap; }
+.meta span { display: inline-flex; align-items: center; gap: 4px; }
+.match { font-size: 13px; color: var(--ink); margin-top: 4px; display: flex; justify-content: space-between; }
+.match em { font-style: normal; color: var(--sub); font-size: 12px; }
+.mbar { height: 6px; border-radius: 3px; background: var(--track); overflow: hidden; }
+.mbar i { display: block; height: 100%; background: var(--green); border-radius: 3px; }
+.need { font-size: 12px; color: var(--sub); overflow-wrap: anywhere; }
+.need b { font-weight: 500; color: var(--red); }
+.ractions { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+.pill { text-decoration: none; display: inline-flex; align-items: center; gap: 5px; padding: 7px 12px; border-radius: 999px; font-size: 13px; font-weight: 500; background: var(--track); color: var(--ink); }
+.pill.primary { background: var(--green); color: #fff; }
+
+/* 장보기 */
+.shop { display: flex; flex-direction: column; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+.srow { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-top: 1px solid var(--line); min-width: 0; }
+.srow:first-child { border-top: 0; }
+.srow .nm { flex: 1; min-width: 0; font-weight: 500; overflow-wrap: anywhere; }
+.srow.done .nm { text-decoration: line-through; color: var(--faint); }
+.check { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--faint); display: grid; place-items: center; flex: none; color: #fff; }
+.check[aria-checked="true"] { background: var(--green); border-color: var(--green); }
+.mini { text-decoration: none; font-size: 12px; padding: 5px 10px; border-radius: 999px; background: var(--track); color: var(--ink); white-space: nowrap; }
+.mini.green { background: var(--green-soft); color: var(--green-ink); }
+.x { color: var(--faint); padding: 4px; }
+.addline { display: flex; gap: 8px; }
+.addline .search { flex: 1; }
+.addline button { background: var(--ink); color: var(--card); border-radius: 14px; padding: 0 18px; font-weight: 500; flex: none; }
+.fine { font-size: 12px; color: var(--sub); }
+
+/* 더보기 */
+.menu { display: flex; flex-direction: column; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+.menu > * { padding: 16px; border-top: 1px solid var(--line); text-align: left; display: flex; justify-content: space-between; gap: 10px; }
+.menu > *:first-child { border-top: 0; }
+.danger { color: var(--red); }
+
+/* 하단 탭바 */
+nav.tabs { position: fixed; left: 0; right: 0; bottom: 0; z-index: 10; background: var(--card); border-top: 1px solid var(--line); padding-bottom: env(safe-area-inset-bottom, 0px); }
+nav.tabs .inner { max-width: 520px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, 1fr); align-items: end; }
+nav.tabs .tab { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 0 12px; font-size: 11px; color: var(--faint); }
+nav.tabs .tab[aria-selected="true"] { color: var(--ink); }
+.fab { justify-self: center; width: 60px; height: 60px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; transform: translateY(-14px); box-shadow: 0 6px 16px rgba(34, 193, 122, .35); }
+
+/* 재료 넣기 창 */
+.sheet-bg { position: fixed; inset: 0; background: rgba(10, 15, 12, .35); z-index: 20; }
+.sheet { position: fixed; left: 0; right: 0; bottom: 0; z-index: 21; background: var(--bg); border-radius: 24px 24px 0 0; max-height: 88%; overflow-y: auto; padding-inline: 20px; padding-block: 10px calc(24px + env(safe-area-inset-bottom, 0px)); }
+.sheet .inner { max-width: 520px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
+.grab { width: 40px; height: 5px; border-radius: 3px; background: var(--faint); margin: 0 auto 4px; opacity: .6; }
+.sheet h2 { font-size: 22px; font-weight: 700; margin: 0; display: flex; justify-content: space-between; align-items: center; }
+.qgrid { display: flex; flex-wrap: wrap; gap: 8px; }
+.q { padding: 9px 14px; border-radius: 12px; background: var(--card); font-size: 14px; box-shadow: var(--shadow); }
+.q.has { background: var(--green-soft); color: var(--green-ink); box-shadow: none; }
+.form { background: var(--card); border-radius: 18px; padding: 16px; box-shadow: var(--shadow); display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.form .full { grid-column: 1 / -1; }
+.form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--sub); }
+.form input, .form select { font: inherit; font-size: 16px; padding: 11px 12px; border-radius: 12px; border: 0; background: var(--track); color: var(--ink); width: 100%; min-width: 0; }
+.bigbtn { grid-column: 1 / -1; background: var(--green); color: #fff; border-radius: 14px; padding: 14px; font-weight: 700; font-size: 16px; }
+.toast { position: fixed; left: 50%; transform: translateX(-50%); top: calc(16px + env(safe-area-inset-top, 0px)); background: var(--ink); color: var(--card); padding: 10px 16px; border-radius: 999px; font-size: 14px; z-index: 30; white-space: nowrap; }
+@media (prefers-reduced-motion: no-preference) {
+  .sheet { animation: up .22s ease-out; }
+  @keyframes up { from { transform: translateY(40px); opacity: .6; } to { transform: none; opacity: 1; } }
+  .fill, .mbar i { transition: width .3s ease; }
+}
 </style>
 </head>
 <body>
 
 
 <div class="wrap">
-  <header class="top">
-    <div class="brand">냉장쿡<small>냉장고 속 재료로 오늘 뭐 해먹지</small></div>
-    <span class="ver">v0.4 시험판</span>
-  </header>
-
-  <div class="summary" aria-label="요약">
-    <div class="stat"><b id="statTotal">0</b><span>보관 중인 재료</span></div>
-    <div class="stat urgent"><b id="statUrgent">0</b><span>3일 안에 기한</span></div>
-    <div class="stat"><b id="statCook">0</b><span>바로 가능한 요리</span></div>
-  </div>
-
-  <div class="notice" id="sampleNotice" hidden>
-    <span>처음이라 예시 재료를 넣어 두었어요.</span>
-    <button class="btn-sm" id="clearSample">예시 지우고 시작</button>
-  </div>
-
-  <!-- 냉장고 탭 -->
-  <section id="tab-fridge" class="section">
-    <div class="form" id="addForm">
-      <h2>재료 넣기</h2>
-      <div class="seg cat-seg" id="addCat" role="group" aria-label="재료 종류"></div>
-      <div class="quick" id="quick" aria-label="눌러서 바로 넣기"></div>
-      <div class="fields">
-        <label class="full">재료 이름<input id="fName" placeholder="예: 두부" autocomplete="off"></label>
-        <label>보관<select id="fPlace"><option>냉장</option><option>냉동</option><option>실온</option></select></label>
-        <label>유통기한<input id="fDate" type="date"></label>
+  <!-- 냉장고 -->
+  <section id="tab-fridge" class="wrap-inner" style="display:flex;flex-direction:column;gap:18px">
+    <div class="top">
+      <div><h1 class="title green">나의 냉장고</h1><div class="date" id="today"></div></div>
+      <button class="circle-btn" data-go="more" aria-label="더보기">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+      </button>
+    </div>
+    <div class="sample-note" id="sampleNote" hidden><span>예시 재료가 들어 있어요</span><button class="link" id="clearSample">지우고 시작</button></div>
+    <div class="tiles">
+      <button class="tile soon" id="tileSoon" aria-pressed="false"><span>유통기한 임박</span><b id="nSoon">0</b></button>
+      <button class="tile over" id="tileOver" aria-pressed="false"><span>유통기한 지남</span><b id="nOver">0</b></button>
+    </div>
+    <label class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+      <span class="hidden-label">재료 검색</span><input id="q" type="search" placeholder="검색" autocomplete="off"></label>
+    <div class="chips" id="catChips" role="group" aria-label="종류"></div>
+    <div class="listhead">
+      <span>품목 <b id="nItems">0</b> · <select class="sort" id="sort" aria-label="정렬"><option value="exp">유통기한 임박순</option><option value="new">최근 넣은 순</option><option value="name">이름순</option></select></span>
+      <div class="seg" id="placeSeg" role="group" aria-label="보관 칸">
+        <button data-p="전체" aria-pressed="true">전체</button><button data-p="냉장" aria-pressed="false">냉장</button><button data-p="냉동" aria-pressed="false">냉동</button><button data-p="실온" aria-pressed="false">실온</button>
       </div>
-      <button class="btn-primary" id="addBtn">냉장고에 넣기</button>
     </div>
-    <h2>우리집 냉장고</h2>
-    <div class="seg cat-seg" id="catFilter" role="group" aria-label="종류별 보기"></div>
-    <div class="seg" id="placeFilter" role="group" aria-label="보관 위치">
-      <button aria-pressed="true" data-p="전체">모든 칸</button>
-      <button aria-pressed="false" data-p="냉장">냉장</button>
-      <button aria-pressed="false" data-p="냉동">냉동</button>
-      <button aria-pressed="false" data-p="실온">실온</button>
-    </div>
-    <div class="section" id="invList"></div>
+    <div class="items" id="items"></div>
   </section>
 
-  <!-- 요리 탭 -->
-  <section id="tab-cook" class="section" hidden>
-    <h2>있는 재료로 만들 요리</h2>
-    <p class="disclose" style="margin:0">기한이 가까운 재료를 쓰는 요리가 먼저 나와요. 양념은 냉장고에 넣어둔 소스를 기준으로 표시하고, 소금·설탕·식용유는 있다고 가정했어요.</p>
-    <div class="seg" id="cuisineFilter" role="group" aria-label="요리 종류"></div>
-    <div id="recipeList" class="section"></div>
-  </section>
-
-  <!-- 장보기 탭 -->
-  <section id="tab-shop" class="section" hidden>
-    <h2>장보기 목록</h2>
-    <div class="form">
-      <div class="fields">
-        <label class="full">사야 할 재료<input id="sName" placeholder="예: 대파" autocomplete="off"></label>
-      </div>
-      <button class="btn-primary" id="sAdd">목록에 추가</button>
+  <!-- 요리 -->
+  <section id="tab-cook" hidden style="flex-direction:column;gap:18px">
+    <h1 class="title"><span id="nRecipes">0</span>가지 요리를<small>지금 바로 만들 수 있어요</small></h1>
+    <div class="mine">
+      <div class="head"><span>내 재료</span><button class="link" data-go="fridge">편집</button></div>
+      <div class="minechips" id="mineChips"></div>
     </div>
-    <div class="list" id="shopList"></div>
-    <p class="disclose" id="shopDisclose">구매 링크는 쿠팡·네이버쇼핑 검색으로 연결돼요. 제휴 링크로 바뀌면 냉장쿡이 일정 수수료를 받을 수 있으며, 그때 이 안내도 함께 바뀝니다.</p>
+    <div class="chips" id="cuisineChips" role="group" aria-label="요리 종류"></div>
+    <div class="recipes" id="recipes"></div>
   </section>
 
-  <div class="foot">
-    <span>재료 목록은 지금 쓰는 이 휴대폰 브라우저에만 저장돼요. 다른 기기와는 아직 공유되지 않아요.</span>
-    <span><button class="btn-sm btn-ghost" id="resetAll">전체 초기화</button><span id="resetConfirm" hidden> 정말 지울까요? <button class="btn-sm" id="resetYes">지우기</button> <button class="btn-sm btn-ghost" id="resetNo">취소</button></span></span>
-  </div>
+  <!-- 장보기 -->
+  <section id="tab-shop" hidden style="flex-direction:column;gap:18px">
+    <h1 class="title">장보기<small id="shopSub">살 것 0개</small></h1>
+    <div class="addline">
+      <label class="search"><span class="hidden-label">사야 할 재료</span><input id="sName" placeholder="사야 할 재료" autocomplete="off"></label>
+      <button id="sAdd">추가</button>
+    </div>
+    <div id="shopList"></div>
+    <p class="fine">쿠팡·네이버쇼핑 검색으로 연결돼요. 나중에 제휴 링크로 바뀌면 냉장쿡이 일정 수수료를 받을 수 있고, 그때 이 안내도 함께 바뀝니다.</p>
+  </section>
+
+  <!-- 더보기 -->
+  <section id="tab-more" hidden style="flex-direction:column;gap:18px">
+    <h1 class="title">더보기<small>냉장쿡 v0.5</small></h1>
+    <div class="menu">
+      <div><span>재료 저장 위치</span><span class="fine">이 휴대폰에만 저장</span></div>
+      <div><span>요리 수</span><span class="fine" id="recipeCount"></span></div>
+      <button id="resetAll" class="danger">모든 재료와 장보기 지우기</button>
+      <div id="resetConfirm" hidden><span>정말 지울까요?</span><span style="display:flex;gap:8px"><button class="mini" id="resetNo">취소</button><button class="mini danger" id="resetYes">지우기</button></span></div>
+    </div>
+    <p class="fine">재료 목록은 지금 쓰는 휴대폰 브라우저에만 저장돼요. 브라우저 기록을 지우면 함께 지워질 수 있어요.</p>
+  </section>
 </div>
 
-<nav class="tabs" role="tablist">
+<nav class="tabs" aria-label="메뉴">
   <div class="inner">
-    <button role="tab" aria-selected="true" data-tab="fridge">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="2.5" width="14" height="19" rx="2.5"/><path d="M5 10h14M8.5 6v1.5M8.5 13v3"/></svg>냉장고</button>
-    <button role="tab" aria-selected="false" data-tab="cook">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 11h18M5 11v6a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3v-6M9 7c0-1.5 1-2 1-3.5M14 7c0-1.5 1-2 1-3.5"/></svg>요리 추천</button>
-    <button role="tab" aria-selected="false" data-tab="shop">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 5h2l2 11h10l2-8H7.2"/><circle cx="9.5" cy="19.5" r="1.3"/><circle cx="16.5" cy="19.5" r="1.3"/></svg>장보기</button>
+    <button class="tab" data-go="fridge" aria-selected="true"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><rect x="5.5" y="2.5" width="13" height="19" rx="3"/><path d="M5.5 10h13M9 6v1.5M9 13v3"/></svg>냉장고</button>
+    <button class="tab" data-go="cook" aria-selected="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3.5 11.5h17a8.5 8.5 0 0 1-17 0z"/><path d="M9 4.5c0 1.5-1 2-1 3.5M13 4.5c0 1.5-1 2-1 3.5"/></svg>요리 추천</button>
+    <button class="fab" id="openAdd" aria-label="재료 넣기"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+    <button class="tab" data-go="shop" aria-selected="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>장보기</button>
+    <button class="tab" data-go="more" aria-selected="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-3.5 3.8-5 7-5s5.8 1.5 7 5"/></svg>더보기</button>
   </div>
 </nav>
+
+<div class="sheet-bg" id="sheetBg" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-label="재료 넣기" hidden>
+  <div class="inner">
+    <div class="grab"></div>
+    <h2>재료 넣기 <button class="link" id="closeAdd">완료</button></h2>
+    <div class="chips" id="addCats" role="group" aria-label="재료 종류"></div>
+    <div class="qgrid" id="quick"></div>
+    <div class="form">
+      <label class="full">직접 입력<input id="fName" placeholder="예: 두부" autocomplete="off"></label>
+      <label>보관<select id="fPlace"><option>냉장</option><option>냉동</option><option>실온</option></select></label>
+      <label>유통기한<input id="fDate" type="date"></label>
+      <button class="bigbtn" id="addBtn">냉장고에 넣기</button>
+    </div>
+  </div>
+</div>
 <div class="toast" id="toast" hidden></div>
 
 <script>
@@ -345,6 +432,27 @@ const SAUCE_OF = {
 };
 RECIPES.forEach(r => r.s = SAUCE_OF[r.n] || []);
 
+
+
+// 요리별 조리 시간(분)과 난이도 (가정값)
+const TIME = {"김치찌개":[25,"쉬움"],"된장찌개":[25,"쉬움"],"계란말이":[10,"쉬움"],"제육볶음":[20,"보통"],"감자조림":[25,"쉬움"],"두부조림":[20,"쉬움"],
+  "김치볶음밥":[15,"쉬움"],"콩나물국":[15,"쉬움"],"시금치나물":[10,"쉬움"],"어묵볶음":[10,"쉬움"],"소고기미역국":[30,"쉬움"],"닭볶음탕":[45,"보통"],
+  "참치김치찌개":[20,"쉬움"],"애호박전":[15,"쉬움"],"버섯볶음":[10,"쉬움"],"계란국":[10,"쉬움"],"만둣국":[15,"쉬움"],"배추된장국":[20,"쉬움"],
+  "소불고기":[30,"보통"],"잡채":[40,"보통"],"순두부찌개":[20,"쉬움"],"부대찌개":[25,"쉬움"],"감자전":[25,"보통"],"오야코동":[20,"쉬움"],
+  "규동":[20,"쉬움"],"일본식 카레라이스":[35,"쉬움"],"돈카츠":[35,"보통"],"야키소바":[20,"쉬움"],"어묵우동":[15,"쉬움"],"미소된장국":[10,"쉬움"],
+  "오코노미야키":[25,"보통"],"연어덮밥":[15,"쉬움"],"마파두부":[20,"보통"],"토마토계란볶음":[10,"쉬움"],"계란볶음밥":[10,"쉬움"],"짜장밥":[30,"보통"],
+  "고추잡채":[20,"보통"],"탕수육":[45,"어려움"],"가지볶음":[20,"보통"],"마라샹궈":[25,"보통"],"청경채볶음":[10,"쉬움"],"크림파스타":[20,"쉬움"],
+  "알리오올리오":[15,"쉬움"],"토마토파스타":[25,"쉬움"],"버섯리조또":[25,"보통"],"오믈렛":[10,"쉬움"],"감자수프":[30,"쉬움"],"스테이크":[20,"보통"],
+  "프렌치토스트":[10,"쉬움"],"햄치즈토스트":[10,"쉬움"],"떡볶이":[20,"쉬움"],"라볶이":[20,"쉬움"],"김밥":[40,"보통"],"계란라면":[7,"쉬움"],
+  "어묵탕":[25,"쉬움"],"팟타이":[25,"보통"],"나시고랭":[15,"쉬움"],"소고기쌀국수":[30,"보통"],"새우볶음밥":[15,"쉬움"],"똠얌꿍":[30,"보통"]};
+const EMOJI = {"계란말이":"🍳","오믈렛":"🍳","김밥":"🍙","떡볶이":"🍢","라볶이":"🍢","어묵탕":"🍢","어묵볶음":"🍢","계란라면":"🍜","어묵우동":"🍜",
+  "소고기쌀국수":"🍜","팟타이":"🍜","야키소바":"🍜","크림파스타":"🍝","알리오올리오":"🍝","토마토파스타":"🍝","프렌치토스트":"🍞","햄치즈토스트":"🥪",
+  "스테이크":"🥩","제육볶음":"🥩","소불고기":"🥩","감자수프":"🥣","버섯리조또":"🍚","오야코동":"🍚","규동":"🍚","김치볶음밥":"🍚","계란볶음밥":"🍚",
+  "나시고랭":"🍚","새우볶음밥":"🍤","연어덮밥":"🍣","돈카츠":"🍛","일본식 카레라이스":"🍛","짜장밥":"🍛","똠얌꿍":"🦐","닭볶음탕":"🍗","애호박전":"🥞",
+  "감자전":"🥞","오코노미야키":"🥞","시금치나물":"🥬","청경채볶음":"🥬","버섯볶음":"🍄","가지볶음":"🍆","토마토계란볶음":"🍅","탕수육":"🍖",
+  "마라샹궈":"🌶️","감자조림":"🥔","두부조림":"🍲","잡채":"🍝","고추잡채":"🫑","만둣국":"🥟"};
+const CUISINE_EMOJI = {"한식":"🍲","일식":"🍱","중식":"🥡","양식":"🍝","분식":"🍢","동남아":"🍜"};
+
 // ===== 저장소 (이 브라우저에만 저장) =====
 const KEY = "naengjangcook.v1";
 function load() { try { return JSON.parse(localStorage.getItem(KEY)) || null; } catch (e) { return null; } }
@@ -355,205 +463,235 @@ const iso = d => { const z = new Date(d.getTime() - d.getTimezoneOffset()*60000)
 const addDays = n => { const d = today(); d.setDate(d.getDate()+n); return iso(d); };
 const daysLeft = s => s ? Math.round((new Date(s+"T00:00:00") - today()) / 86400000) : null;
 const uid = () => Math.random().toString(36).slice(2,9);
-const norm = s => { const t = s.trim().replace(/\s+/g,""); return ALIAS[t] || t; };
+const norm = s => { const t = String(s).trim().replace(/\s+/g,""); return ALIAS[t] || t; };
+const shelf = n => (FOODS[n] || FOODS[norm(n)] || ["냉장", 7]);
 
 function sample() {
-  const mk = (n, d) => ({ id: uid(), name: n, place: (FOODS[n]||["냉장"])[0], exp: addDays(d), sample: true });
+  const mk = (n, d) => ({ id: uid(), name: n, place: shelf(n)[0], exp: addDays(d), total: shelf(n)[1], added: Date.now(), sample: true });
   return { items: [mk("두부",1), mk("김치",40), mk("돼지고기",2), mk("계란",12), mk("양파",20), mk("애호박",3), mk("밥",25), mk("우유",5), mk("간장",200), mk("고추장",150), mk("참기름",90)],
-           shop: [{ id: uid(), name: "대파", done: false, sample: true }], filter: "전체", tab: "fridge" };
+           shop: [{ id: uid(), name: "대파", done: false, sample: true }] };
 }
 let state = load() || sample();
-if (!["전체","냉장","냉동","실온"].includes(state.filter)) state.filter = "전체";
+state = Object.assign({ tab: "fridge", place: "전체", cat: "전체", cuisine: "전체", sort: "exp", view: "", addCat: CAT_NAMES[0] }, state);
+if (!["전체","냉장","냉동","실온"].includes(state.place)) state.place = "전체";
+if (!["fridge","cook","shop","more"].includes(state.tab)) state.tab = "fridge";
 
-// ===== 렌더 =====
+// ===== 공통 =====
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const ytUrl = q => "https://www.youtube.com/results?search_query=" + encodeURIComponent(q);
 const coupangUrl = n => "https://www.coupang.com/np/search?q=" + encodeURIComponent(n);
 const naverUrl = n => "https://search.shopping.naver.com/search/all?query=" + encodeURIComponent(n + " 산지직송");
+const LEAF = c => `<svg width="22" height="14" viewBox="0 0 22 14"><path d="M11 13C11 7 7 2 1 2c0 5 4 9 10 11z" fill="${c}"/><path d="M11 13c0-6 4-11 10-11 0 5-4 9-10 11z" fill="${c}"/></svg>`;
+const ICON_CHECK = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>';
+const ICON_CLOCK = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2" stroke-linecap="round"/></svg>';
+const ICON_HAT = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M7 18h10v-4.5a4 4 0 0 0 .5-7.9A5 5 0 0 0 7.5 5.6 4 4 0 0 0 7 13.5z"/></svg>';
+const ICON_PLAY = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l11-6.5z"/></svg>';
+const ICON_X = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
 
-function dChip(s) {
-  const d = daysLeft(s);
-  if (d === null) return '<span class="chip plain">기한 없음</span>';
-  if (d < 0) return `<span class="chip danger">${-d}일 지남</span>`;
-  if (d === 0) return '<span class="chip danger">오늘까지</span>';
-  if (d <= 3) return `<span class="chip warn">D-${d}</span>`;
-  return `<span class="chip">D-${d}</span>`;
+function status(it) {
+  const d = daysLeft(it.exp);
+  if (d === null) return "none";
+  if (d < 0) return "over";
+  if (d <= 3) return "soon";
+  return "ok";
 }
 
-function owned() { const m = {}; state.items.forEach(it => { const k = norm(it.name); const d = daysLeft(it.exp); if (!(k in m) || (d !== null && d < m[k])) m[k] = d === null ? 999 : d; }); return m; }
+let toastT;
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 1700); }
 
+// ===== 요리 점수 =====
+function owned() { const m = {}; state.items.forEach(it => { const k = norm(it.name); const d = daysLeft(it.exp); const v = d === null ? 999 : d; if (!(k in m) || v < m[k]) m[k] = v; }); return m; }
 function scoreRecipes(all) {
   const own = owned();
   return RECIPES.map(r => {
     const have = r.i.filter(x => x in own), miss = r.i.filter(x => !(x in own));
-    const hot = have.filter(x => own[x] <= 3);
-    const sMiss = r.s.filter(x => !(x in own));
+    const hot = have.filter(x => own[x] <= 3), sMiss = r.s.filter(x => !(x in own));
     const ratio = have.length / r.i.length;
     return { ...r, have, miss, hot, sMiss, ratio, score: ratio * 100 + hot.length * 25 - miss.length * 5 - sMiss.length * 2 };
   }).filter(r => all || r.have.length > 0).sort((a, b) => b.score - a.score);
 }
 
-function renderStats() {
-  $("statTotal").textContent = state.items.length;
-  $("statUrgent").textContent = state.items.filter(it => { const d = daysLeft(it.exp); return d !== null && d <= 3; }).length;
-  $("statCook").textContent = scoreRecipes().filter(r => r.miss.length === 0).length;
-  $("sampleNotice").hidden = !state.items.some(it => it.sample) && !state.shop.some(s => s.sample);
-}
+// ===== 그리기 =====
+function renderFridge() {
+  const d = new Date(); $("today").textContent = `${d.getMonth()+1}월 ${d.getDate()}일 ${"일월화수목금토"[d.getDay()]}요일`;
+  $("sampleNote").hidden = !state.items.some(x => x.sample) && !state.shop.some(x => x.sample);
+  $("nSoon").textContent = state.items.filter(it => status(it) === "soon").length;
+  $("nOver").textContent = state.items.filter(it => status(it) === "over").length;
+  $("tileSoon").setAttribute("aria-pressed", state.view === "soon");
+  $("tileOver").setAttribute("aria-pressed", state.view === "over");
+  document.querySelectorAll("#placeSeg button").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === state.place));
+  $("sort").value = state.sort;
 
-function renderAdd() {
-  const ac = state.addCat || CAT_NAMES[0];
-  $("addCat").innerHTML = CAT_NAMES.map(c => `<button aria-pressed="${c === ac}" data-ac="${c}">${c}</button>`).join("");
-  const have = new Set(state.items.map(it => norm(it.name)));
-  $("quick").innerHTML = CATS[ac].map(n => `<button data-quick="${n}" class="${have.has(norm(n)) ? "has" : ""}">${n}${have.has(norm(n)) ? " ✓" : ""}</button>`).join("");
-}
+  const cnt = c => state.items.filter(it => c === "전체" || catOf(it.name) === c).length;
+  $("catChips").innerHTML = ["전체", ...CAT_NAMES].filter(c => c === "전체" || c === state.cat || cnt(c) > 0)
+    .map(c => `<button class="chip" data-cat="${c}" aria-pressed="${c === state.cat}">${c}<span class="n">${cnt(c)}</span></button>`).join("");
 
-function invRow(it) {
-  return `
-    <div class="row">
-      <span class="stripe s-${it.place}" aria-hidden="true"></span>
-      <span class="name">${esc(it.name)}<small>${it.place}${it.exp ? " · " + it.exp.slice(5).replace("-", "/") + "까지" : ""}${it.sample ? " · 예시" : ""}</small></span>
-      ${dChip(it.exp)}
-      <button class="btn-sm" data-use="${it.id}" aria-label="${esc(it.name)} 다 먹음">다 먹음</button>
-    </div>`;
-}
+  const q = norm($("q").value || "");
+  let list = state.items.filter(it =>
+    (state.place === "전체" || it.place === state.place) &&
+    (state.cat === "전체" || catOf(it.name) === state.cat) &&
+    (!state.view || status(it) === state.view) &&
+    (!q || norm(it.name).includes(q) || it.name.includes(q)));
+  const by = { exp: (a, b) => (daysLeft(a.exp) ?? 9999) - (daysLeft(b.exp) ?? 9999), new: (a, b) => (b.added || 0) - (a.added || 0), name: (a, b) => a.name.localeCompare(b.name, "ko") };
+  list.sort(by[state.sort]);
+  $("nItems").textContent = list.length;
 
-function renderInv() {
-  const f = state.filter, cf = state.catFilter || "전체";
-  document.querySelectorAll("#placeFilter button").forEach(b => b.setAttribute("aria-pressed", b.dataset.p === f));
-  const count = c => state.items.filter(it => c === "전체" || catOf(it.name) === c).length;
-  $("catFilter").innerHTML = ["전체", ...CAT_NAMES].filter(c => c === "전체" || c === cf || count(c) > 0)
-    .map(c => `<button aria-pressed="${c === cf}" data-cf="${c}">${c} <span class="n">${count(c)}</span></button>`).join("");
-  const items = state.items.filter(it => (f === "전체" || it.place === f) && (cf === "전체" || catOf(it.name) === cf))
-    .sort((a, b) => (daysLeft(a.exp) ?? 9999) - (daysLeft(b.exp) ?? 9999));
-  if (!items.length) {
-    $("invList").innerHTML = `<div class="list"><div class="empty">${state.items.length ? "이 조건에 맞는 재료가 없어요." : "아직 넣은 재료가 없어요.<br>위에서 종류를 고르고 재료를 눌러 바로 넣어 보세요."}</div></div>`;
+  if (!list.length) {
+    $("items").innerHTML = `<div class="empty">${state.items.length ? "조건에 맞는 재료가 없어요" : "냉장고가 비어 있어요<br>아래 <b>+</b> 버튼으로 재료를 넣어 보세요"}</div>`;
     return;
   }
-  // 종류별로 묶어서 보여주기 (각 묶음 안에서는 기한 임박 순)
-  const groups = CAT_NAMES.map(c => [c, items.filter(it => catOf(it.name) === c)]).filter(([, l]) => l.length);
-  $("invList").innerHTML = groups.map(([c, l]) => `
-    <div class="group">
-      <h3>${c} <span class="n">${l.length}</span></h3>
-      <div class="list">${l.map(invRow).join("")}</div>
-    </div>`).join("");
+  $("items").innerHTML = list.map(it => {
+    const st = status(it), d = daysLeft(it.exp);
+    const total = it.total || shelf(it.name)[1];
+    const pct = d === null ? 100 : Math.max(0, Math.min(1, d / total)) * 100;
+    const label = d === null ? "-" : d < 0 ? `${-d}일↑` : d === 0 ? "오늘" : `${d}일`;
+    const leafC = st === "soon" ? "var(--amber)" : st === "over" ? "var(--red)" : "var(--green)";
+    const pos = `calc(21px + (100% - 42px) * ${pct / 100})`;
+    return `<article class="item st-${st}">
+      <div class="row1"><span class="nm">${esc(it.name)}<span class="tag">${it.place}${it.sample ? " · 예시" : ""}</span></span>
+        <span class="exp">${it.exp ? it.exp.replace(/-/g, ". ") : "기한 없음"}</span></div>
+      <div class="row2">
+        <div class="bar" aria-label="${esc(it.name)} 남은 기한 ${label}">
+          <span class="track"></span><span class="fill" style="width:${pos}"></span>
+          <span class="badge" style="left:${pos}">${st === "over" ? "" : LEAF(leafC)}${label}</span>
+        </div>
+        <button class="done-btn" data-use="${it.id}" aria-label="${esc(it.name)} 다 먹음">${ICON_CHECK}</button>
+      </div>
+    </article>`;
+  }).join("");
 }
 
-function renderRecipes() {
-  const cz = state.cuisine || "전체";
-  $("cuisineFilter").innerHTML = CUISINES.map(c => `<button aria-pressed="${c === cz}" data-cz="${c}">${c}</button>`).join("");
-  // 전체: 재료가 하나라도 있는 요리만 / 종류 선택: 그 종류 전부 (있는 재료 많은 순)
-  const list = cz === "전체" ? scoreRecipes() : scoreRecipes(true).filter(r => r.c === cz);
-  $("recipeList").innerHTML = list.length ? list.map(r => `
-    <article class="recipe">
-      <div class="head"><span class="title">${r.n} <span class="chip plain">${r.c}</span></span>
-        <span class="chip ${r.miss.length ? "plain" : r.sMiss.length ? "warn" : ""}">${r.miss.length ? r.miss.length + "개 부족" : r.sMiss.length ? "양념만 부족" : "바로 가능"}</span></div>
-      <div class="meter" aria-label="재료 ${r.have.length}/${r.i.length}개 보유"><i style="width:${Math.round(r.ratio*100)}%"></i></div>
-      <div class="ings">${r.i.map(x => `<span class="ing ${r.miss.includes(x) ? "miss" : r.hot.includes(x) ? "hot" : ""}">${x}${r.hot.includes(x) ? " · 임박" : ""}</span>`).join("")}</div>
-      ${r.s.length ? `<div class="ings"><span class="sauce-label">양념</span>${r.s.map(x => `<span class="ing sauce ${r.sMiss.includes(x) ? "miss" : ""}">${x}</span>`).join("")}</div>` : ""}
-      <div class="actions">
-        <a class="btn btn-sm btn-primary" href="${ytUrl(r.q)}" target="_blank" rel="noopener">유튜브 영상 보기</a>
-        ${r.miss.length + r.sMiss.length ? `<button class="btn-sm" data-addmiss="${r.n}">부족한 ${r.miss.length ? "재료" : "양념"} 장보기에 담기</button>` : ""}
+function renderCook() {
+  const all = scoreRecipes(false);
+  $("nRecipes").textContent = all.filter(r => r.miss.length === 0).length;
+  const own = owned();
+  const mine = Object.entries(own).sort((a, b) => a[1] - b[1]).slice(0, 10);
+  $("mineChips").innerHTML = mine.length ? mine.map(([n, d]) => `<span class="mchip ${d <= 3 ? "hot" : ""}">${esc(n)}</span>`).join("") + (Object.keys(own).length > 10 ? `<span class="mchip">+${Object.keys(own).length - 10}</span>` : "")
+    : '<span class="fine">아직 재료가 없어요</span>';
+  $("cuisineChips").innerHTML = CUISINES.map(c => `<button class="chip" data-cz="${c}" aria-pressed="${c === state.cuisine}">${c}</button>`).join("");
+  const list = state.cuisine === "전체" ? all : scoreRecipes(true).filter(r => r.c === state.cuisine);
+  $("recipes").innerHTML = list.length ? list.map((r, i) => {
+    const [min, lv] = TIME[r.n] || [20, "보통"];
+    const pct = Math.round(r.ratio * 100);
+    const lack = [...r.miss, ...r.sMiss];
+    return `<article class="recipe">
+      <div class="thumb th-${r.c}" aria-hidden="true">${EMOJI[r.n] || CUISINE_EMOJI[r.c]}</div>
+      <div class="rbody">
+        ${i === 0 && pct >= 50 && state.cuisine === "전체" ? '<span class="best">가장 잘 맞아요</span>' : r.hot.length ? `<span class="best" style="color:var(--amber)">${r.hot.join("·")} 먼저 써요</span>` : `<span class="best" style="color:var(--sub)">${r.c}</span>`}
+        <span class="rname">${r.n}</span>
+        <div class="meta"><span>${ICON_CLOCK}${min}분</span><span>${ICON_HAT}${lv}</span></div>
+        <div class="match"><span>${pct}% 일치</span><em>재료 ${r.have.length}/${r.i.length}</em></div>
+        <div class="mbar"><i style="width:${pct}%"></i></div>
+        ${lack.length ? `<div class="need">필요: ${r.miss.map(x => `<b>${x}</b>`).join(", ")}${r.miss.length && r.sMiss.length ? ", " : ""}${r.sMiss.join(", ")}${r.sMiss.length ? " (양념)" : ""}</div>` : ""}
+        <div class="ractions">
+          <a class="pill primary" href="${ytUrl(r.q)}" target="_blank" rel="noopener">${ICON_PLAY}영상 보기</a>
+          ${lack.length ? `<button class="pill" data-addmiss="${r.n}">장보기 담기</button>` : ""}
+        </div>
       </div>
-    </article>`).join("") : '<div class="list"><div class="empty">냉장고에 재료를 넣으면 만들 수 있는 요리가 여기 나와요.</div></div>';
+    </article>`;
+  }).join("") : '<div class="empty">재료를 넣으면 만들 수 있는 요리가 여기 나와요</div>';
 }
 
 function renderShop() {
+  const left = state.shop.filter(s => !s.done).length;
+  $("shopSub").textContent = `살 것 ${left}개`;
   const items = [...state.shop].sort((a, b) => a.done - b.done);
-  $("shopList").innerHTML = items.length ? items.map(s => `
-    <div class="row ${s.done ? "done" : ""}">
-      <input type="checkbox" class="check" id="chk-${s.id}" data-toggle="${s.id}" ${s.done ? "checked" : ""} aria-label="${esc(s.name)} 샀음">
-      <span class="name">${esc(s.name)}${s.sample ? "<small>예시</small>" : ""}</span>
-      ${s.done ? `<button class="btn-sm" data-tofridge="${s.id}">냉장고로</button>` : `
-        <a class="btn btn-sm" href="${coupangUrl(s.name)}" target="_blank" rel="noopener">쿠팡</a>
-        <a class="btn btn-sm" href="${naverUrl(s.name)}" target="_blank" rel="noopener">산지직송</a>`}
-      <button class="btn-sm btn-ghost" data-del="${s.id}" aria-label="${esc(s.name)} 삭제">✕</button>
-    </div>`).join("") : '<div class="empty">요리 추천에서 부족한 재료를 담거나, 위에서 직접 추가해 보세요.</div>';
+  $("shopList").innerHTML = items.length ? `<div class="shop">${items.map(s => `
+    <div class="srow ${s.done ? "done" : ""}">
+      <button class="check" role="checkbox" aria-checked="${!!s.done}" data-toggle="${s.id}" aria-label="${esc(s.name)} 샀음">${s.done ? ICON_CHECK : ""}</button>
+      <span class="nm">${esc(s.name)}</span>
+      ${s.done ? `<button class="mini green" data-tofridge="${s.id}">냉장고에 넣기</button>` : `
+        <a class="mini" href="${coupangUrl(s.name)}" target="_blank" rel="noopener">쿠팡</a>
+        <a class="mini green" href="${naverUrl(s.name)}" target="_blank" rel="noopener">산지직송</a>`}
+      <button class="x" data-del="${s.id}" aria-label="${esc(s.name)} 지우기">${ICON_X}</button>
+    </div>`).join("")}</div>` : '<div class="empty">요리 추천에서 부족한 재료를 담아 보세요</div>';
+}
+
+function renderMore() { $("recipeCount").textContent = `${RECIPES.length}가지 · 6개 나라`; }
+
+function renderSheet() {
+  $("addCats").innerHTML = CAT_NAMES.map(c => `<button class="chip" data-ac="${c}" aria-pressed="${c === state.addCat}">${c}</button>`).join("");
+  const have = new Set(state.items.map(it => norm(it.name)));
+  $("quick").innerHTML = CATS[state.addCat].map(n => `<button class="q ${have.has(norm(n)) ? "has" : ""}" data-quick="${n}">${n}</button>`).join("");
 }
 
 function renderTabs() {
-  ["fridge","cook","shop"].forEach(t => { $("tab-" + t).hidden = state.tab !== t; });
-  document.querySelectorAll("nav.tabs button").forEach(b => b.setAttribute("aria-selected", b.dataset.tab === state.tab));
+  ["fridge","cook","shop","more"].forEach(t => { const el = $("tab-" + t); el.hidden = state.tab !== t; el.style.display = state.tab === t ? "flex" : ""; });
+  document.querySelectorAll("nav .tab").forEach(b => b.setAttribute("aria-selected", b.dataset.go === state.tab));
 }
 
-function render() { renderStats(); renderAdd(); renderInv(); renderRecipes(); renderShop(); renderTabs(); save(); }
-
-let toastT;
-function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => t.hidden = true, 1800); }
+function render() { renderTabs(); renderFridge(); renderCook(); renderShop(); renderMore(); if (!$("sheet").hidden) renderSheet(); save(); }
 
 // ===== 동작 =====
-function suggest() {
-  const k = norm($("fName").value);
-  if (FOODS[k]) { $("fPlace").value = FOODS[k][0]; $("fDate").value = addDays(FOODS[k][1]); }
-}
+function go(t) { state.tab = t; render(); window.scrollTo(0, 0); }
+document.addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) go(b.dataset.go); });
+
 function addItem(name, place, exp) {
   name = name.trim(); if (!name) { toast("재료 이름을 적어 주세요"); return; }
-  state.items.push({ id: uid(), name, place, exp: exp || "" });
+  const d = exp ? daysLeft(exp) : null;
+  state.items.push({ id: uid(), name, place, exp: exp || "", total: Math.max(1, d ?? shelf(name)[1]), added: Date.now() });
   render(); toast(`${name} 넣었어요`);
 }
-
-$("addCat").addEventListener("click", e => { if (e.target.dataset.ac) { state.addCat = e.target.dataset.ac; render(); } });
-$("catFilter").addEventListener("click", e => { const b = e.target.closest("button"); if (b) { state.catFilter = b.dataset.cf; render(); } });
+function openSheet() { $("sheet").hidden = false; $("sheetBg").hidden = false; renderSheet(); }
+function closeSheet() { $("sheet").hidden = true; $("sheetBg").hidden = true; }
+$("openAdd").addEventListener("click", openSheet);
+$("closeAdd").addEventListener("click", closeSheet);
+$("sheetBg").addEventListener("click", closeSheet);
+document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+$("addCats").addEventListener("click", e => { const b = e.target.closest("[data-ac]"); if (b) { state.addCat = b.dataset.ac; renderSheet(); save(); } });
 $("quick").addEventListener("click", e => {
-  const b = e.target.closest("button"); if (!b) return; const n = b.dataset.quick;
+  const b = e.target.closest("[data-quick]"); if (!b) return; const n = b.dataset.quick;
   if (isSauce(norm(n)) && state.items.some(it => norm(it.name) === norm(n))) { toast(`${n}은(는) 이미 있어요`); return; }
-  const f = FOODS[n] || FOODS[norm(n)] || ["냉장", 7];
-  addItem(n, f[0], addDays(f[1]));
+  const f = shelf(n); addItem(n, f[0], addDays(f[1]));
 });
-$("fName").addEventListener("input", suggest);
-$("addBtn").addEventListener("click", () => {
-  addItem($("fName").value, $("fPlace").value, $("fDate").value);
-  $("fName").value = ""; $("fDate").value = ""; $("fName").focus();
-});
+$("fName").addEventListener("input", () => { const k = norm($("fName").value); if (FOODS[k]) { $("fPlace").value = FOODS[k][0]; $("fDate").value = addDays(FOODS[k][1]); } });
+$("addBtn").addEventListener("click", () => { addItem($("fName").value, $("fPlace").value, $("fDate").value); $("fName").value = ""; $("fDate").value = ""; });
 $("fName").addEventListener("keydown", e => { if (e.key === "Enter") $("addBtn").click(); });
-$("placeFilter").addEventListener("click", e => { if (e.target.dataset.p) { state.filter = e.target.dataset.p; render(); } });
-$("invList").addEventListener("click", e => {
-  const id = e.target.dataset.use; if (!id) return;
-  const it = state.items.find(x => x.id === id);
-  state.items = state.items.filter(x => x.id !== id); render(); toast(`${it.name} 정리했어요`);
+
+$("q").addEventListener("input", renderFridge);
+$("sort").addEventListener("change", e => { state.sort = e.target.value; render(); });
+$("placeSeg").addEventListener("click", e => { const b = e.target.closest("[data-p]"); if (b) { state.place = b.dataset.p; render(); } });
+$("catChips").addEventListener("click", e => { const b = e.target.closest("[data-cat]"); if (b) { state.cat = b.dataset.cat; render(); } });
+$("tileSoon").addEventListener("click", () => { state.view = state.view === "soon" ? "" : "soon"; render(); });
+$("tileOver").addEventListener("click", () => { state.view = state.view === "over" ? "" : "over"; render(); });
+$("items").addEventListener("click", e => {
+  const b = e.target.closest("[data-use]"); if (!b) return;
+  const it = state.items.find(x => x.id === b.dataset.use);
+  state.items = state.items.filter(x => x.id !== it.id); render(); toast(`${it.name} 다 먹었어요`);
 });
-$("cuisineFilter").addEventListener("click", e => { if (e.target.dataset.cz) { state.cuisine = e.target.dataset.cz; render(); } });
-$("recipeList").addEventListener("click", e => {
-  const n = e.target.dataset.addmiss; if (!n) return;
-  const r = scoreRecipes(true).find(x => x.n === n); let c = 0;
+$("clearSample").addEventListener("click", () => { state.items = state.items.filter(x => !x.sample); state.shop = state.shop.filter(x => !x.sample); render(); toast("예시를 지웠어요"); });
+
+$("cuisineChips").addEventListener("click", e => { const b = e.target.closest("[data-cz]"); if (b) { state.cuisine = b.dataset.cz; render(); } });
+$("recipes").addEventListener("click", e => {
+  const b = e.target.closest("[data-addmiss]"); if (!b) return;
+  const r = scoreRecipes(true).find(x => x.n === b.dataset.addmiss); let c = 0;
   [...r.miss, ...r.sMiss].forEach(m => { if (!state.shop.some(s => norm(s.name) === m && !s.done)) { state.shop.push({ id: uid(), name: m, done: false }); c++; } });
   render(); toast(c ? `${c}개 장보기에 담았어요` : "이미 담겨 있어요");
 });
-$("sAdd").addEventListener("click", () => {
-  const n = $("sName").value.trim(); if (!n) { toast("재료 이름을 적어 주세요"); return; }
-  state.shop.push({ id: uid(), name: n, done: false }); $("sName").value = ""; render();
-});
+
+$("sAdd").addEventListener("click", () => { const n = $("sName").value.trim(); if (!n) { toast("재료 이름을 적어 주세요"); return; } state.shop.push({ id: uid(), name: n, done: false }); $("sName").value = ""; render(); });
 $("sName").addEventListener("keydown", e => { if (e.key === "Enter") $("sAdd").click(); });
-$("shopList").addEventListener("change", e => {
-  const id = e.target.dataset.toggle; if (!id) return;
-  const s = state.shop.find(x => x.id === id); s.done = e.target.checked; render();
-});
 $("shopList").addEventListener("click", e => {
-  const del = e.target.dataset.del, tf = e.target.dataset.tofridge;
-  if (del) { state.shop = state.shop.filter(x => x.id !== del); render(); }
-  if (tf) {
-    const s = state.shop.find(x => x.id === tf); const k = norm(s.name); const f = FOODS[k] || ["냉장", 7];
-    state.items.push({ id: uid(), name: s.name, place: f[0], exp: addDays(f[1]) });
-    state.shop = state.shop.filter(x => x.id !== tf); render(); toast(`${s.name} 냉장고에 넣었어요`);
+  const t = e.target.closest("[data-toggle],[data-del],[data-tofridge]"); if (!t) return;
+  if (t.dataset.toggle) { const s = state.shop.find(x => x.id === t.dataset.toggle); s.done = !s.done; }
+  if (t.dataset.del) state.shop = state.shop.filter(x => x.id !== t.dataset.del);
+  if (t.dataset.tofridge) {
+    const s = state.shop.find(x => x.id === t.dataset.tofridge); const f = shelf(s.name);
+    state.items.push({ id: uid(), name: s.name, place: f[0], exp: addDays(f[1]), total: f[1], added: Date.now() });
+    state.shop = state.shop.filter(x => x.id !== s.id); toast(`${s.name} 냉장고에 넣었어요`);
   }
+  render();
 });
-document.querySelector("nav.tabs").addEventListener("click", e => {
-  const b = e.target.closest("button"); if (!b) return; state.tab = b.dataset.tab; render(); window.scrollTo(0, 0);
-});
-$("clearSample").addEventListener("click", () => {
-  state.items = state.items.filter(x => !x.sample); state.shop = state.shop.filter(x => !x.sample); render(); toast("예시를 지웠어요");
-});
+
 $("resetAll").addEventListener("click", () => { $("resetConfirm").hidden = false; });
 $("resetNo").addEventListener("click", () => { $("resetConfirm").hidden = true; });
-$("resetYes").addEventListener("click", () => {
-  state = { items: [], shop: [], filter: "전체", tab: "fridge" }; $("resetConfirm").hidden = true; render(); toast("모두 지웠어요");
-});
+$("resetYes").addEventListener("click", () => { state.items = []; state.shop = []; $("resetConfirm").hidden = true; render(); toast("모두 지웠어요"); });
 
 render();
 </script>
 
 <script>
-// 오프라인에서도 열리도록 서비스 워커 등록
 if ("serviceWorker" in navigator) { window.addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(() => {})); }
 </script>
 </body>

@@ -1,6 +1,6 @@
 # 냉장쿡 앱 소스
 
-- index.html: v0.4 시험판 (HTML 한 파일, 서버 없음, 비용 0원)
+- index.html: v0.5 시험판 (HTML 한 파일, 서버 없음, 비용 0원)
 - 배포 링크: https://claude.ai/artifact/KKrrHqmeKPcoRV4CEu6Lih
 - 수정 방법: 이 파일을 고친 뒤 같은 링크로 다시 배포 (Claude에게 "냉장쿡 앱 고쳐줘"라고 요청)
 
@@ -18,4 +18,4 @@
 ## 무료 사이트(GitHub Pages) 배포용
 - /mnt/project-files/naengjangcook/web/ : index.html + manifest.webmanifest + sw.js + 아이콘 (홈 화면 설치·오프라인 지원)
 - naengjangcook-web.zip : 위 폴더 압축본 (GitHub에 끌어다 올리기용)
-- 앱을 고치면 app/index.html → web/index.html 반영, sw.js의 VERSION 숫자 올리기
+- 앱을 고치면 app/build_web.py 실행해서 web/index.html 반영, sw.js의 VERSION 숫자 올리기
