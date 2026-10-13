@@ -1,6 +1,6 @@
 # 냉장쿡 앱 소스
 
-- index.html: v0.7 시험판 (HTML 한 파일, 서버 없음, 비용 0원)
+- index.html: v0.8 시험판 (HTML 한 파일, 서버 없음, 비용 0원)
 - 배포 링크: https://claude.ai/artifact/KKrrHqmeKPcoRV4CEu6Lih
 - 수정 방법: 이 파일을 고친 뒤 같은 링크로 다시 배포 (Claude에게 "냉장쿡 앱 고쳐줘"라고 요청)
 
@@ -27,3 +27,8 @@
 - 바코드 찍기: BarcodeDetector 또는 ZXing(jsdelivr)으로 읽고 Open Food Facts에서 상품명 조회, 모르는 바코드는 이름 입력 후 기억
 - 영수증 찍기: tesseract.js(jsdelivr, 한국어)로 휴대폰에서 글자 인식 → 아는 재료 이름·가격 추출 → 골라서 한 번에 넣기
 - "유통기한" 표기를 "소비기한"으로 변경, 장보기 "산 것 모두 냉장고에 넣기"
+
+## v0.8
+- 요리 사진: AI 이미지(images/food/<slug>.jpg, GitHub Actions "AI 요리 사진 만들기"가 tools/food_prompts.json으로 생성) → 없으면 위키백과 → 그림
+  - 사진을 다시 만들려면 저장소에서 해당 jpg를 지우고 Actions에서 워크플로를 다시 실행
+- 인기 영상 창: 설정에 유튜브 API 키를 넣으면 조회수 상위 25개 중 좋아요 많은 순 10개(7일 캐시), 키가 없으면 유튜브 조회수 순 검색 링크
