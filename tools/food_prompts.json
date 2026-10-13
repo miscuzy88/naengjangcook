@@ -1,0 +1,302 @@
+[
+ {
+  "name": "김치찌개",
+  "slug": "kimchi-jjigae",
+  "prompt": "Korean kimchi jjigae stew with pork and tofu in a black earthenware pot"
+ },
+ {
+  "name": "된장찌개",
+  "slug": "doenjang-jjigae",
+  "prompt": "Korean doenjang jjigae soybean paste stew with tofu, zucchini and potato in an earthenware pot"
+ },
+ {
+  "name": "계란말이",
+  "slug": "gyeran-mari",
+  "prompt": "Korean rolled omelette gyeran-mari sliced on a plate, with green onion and carrot bits"
+ },
+ {
+  "name": "제육볶음",
+  "slug": "jeyuk-bokkeum",
+  "prompt": "Korean spicy stir-fried pork jeyuk bokkeum with onion and green onion on a plate"
+ },
+ {
+  "name": "감자조림",
+  "slug": "gamja-jorim",
+  "prompt": "Korean soy-braised potatoes gamja jorim glossy side dish in a small bowl"
+ },
+ {
+  "name": "두부조림",
+  "slug": "dubu-jorim",
+  "prompt": "Korean braised tofu dubu jorim with chili flakes and green onion"
+ },
+ {
+  "name": "김치볶음밥",
+  "slug": "kimchi-fried-rice",
+  "prompt": "Korean kimchi fried rice topped with a sunny-side-up fried egg"
+ },
+ {
+  "name": "콩나물국",
+  "slug": "kongnamul-guk",
+  "prompt": "Korean clear soybean sprout soup kongnamul guk in a bowl"
+ },
+ {
+  "name": "시금치나물",
+  "slug": "sigeumchi-namul",
+  "prompt": "Korean seasoned spinach side dish sigeumchi namul with sesame seeds"
+ },
+ {
+  "name": "어묵볶음",
+  "slug": "eomuk-bokkeum",
+  "prompt": "Korean stir-fried fish cake eomuk bokkeum with onion and carrot"
+ },
+ {
+  "name": "소고기미역국",
+  "slug": "miyeok-guk",
+  "prompt": "Korean beef seaweed soup miyeok guk in a bowl"
+ },
+ {
+  "name": "닭볶음탕",
+  "slug": "dakbokkeumtang",
+  "prompt": "Korean spicy braised chicken dakbokkeumtang with potatoes and carrots"
+ },
+ {
+  "name": "참치김치찌개",
+  "slug": "tuna-kimchi-jjigae",
+  "prompt": "Korean tuna kimchi stew in an earthenware pot with tofu"
+ },
+ {
+  "name": "애호박전",
+  "slug": "hobak-jeon",
+  "prompt": "Korean pan-fried zucchini slices hobak jeon coated in egg"
+ },
+ {
+  "name": "버섯볶음",
+  "slug": "beoseot-bokkeum",
+  "prompt": "Korean stir-fried mushrooms with onion side dish"
+ },
+ {
+  "name": "계란국",
+  "slug": "gyeran-guk",
+  "prompt": "Korean egg drop soup gyeran guk with green onion"
+ },
+ {
+  "name": "만둣국",
+  "slug": "mandu-guk",
+  "prompt": "Korean dumpling soup manduguk with egg garnish"
+ },
+ {
+  "name": "배추된장국",
+  "slug": "baechu-doenjang-guk",
+  "prompt": "Korean napa cabbage soybean paste soup in a bowl"
+ },
+ {
+  "name": "소불고기",
+  "slug": "bulgogi",
+  "prompt": "Korean beef bulgogi with onion and green onion on a plate"
+ },
+ {
+  "name": "잡채",
+  "slug": "japchae",
+  "prompt": "Korean japchae glass noodles stir-fried with vegetables and beef"
+ },
+ {
+  "name": "순두부찌개",
+  "slug": "sundubu-jjigae",
+  "prompt": "Korean spicy soft tofu stew sundubu jjigae with an egg in a stone pot"
+ },
+ {
+  "name": "부대찌개",
+  "slug": "budae-jjigae",
+  "prompt": "Korean army stew budae jjigae with ham, sausage, ramen noodles and kimchi in a shallow pot"
+ },
+ {
+  "name": "감자전",
+  "slug": "gamja-jeon",
+  "prompt": "Korean crispy potato pancake gamja jeon"
+ },
+ {
+  "name": "오야코동",
+  "slug": "oyakodon",
+  "prompt": "Japanese oyakodon chicken and egg rice bowl"
+ },
+ {
+  "name": "규동",
+  "slug": "gyudon",
+  "prompt": "Japanese gyudon beef and onion rice bowl"
+ },
+ {
+  "name": "일본식 카레라이스",
+  "slug": "japanese-curry",
+  "prompt": "Japanese curry rice with potatoes, carrots and pork"
+ },
+ {
+  "name": "돈카츠",
+  "slug": "tonkatsu",
+  "prompt": "Japanese tonkatsu breaded pork cutlet sliced with shredded cabbage"
+ },
+ {
+  "name": "야키소바",
+  "slug": "yakisoba",
+  "prompt": "Japanese yakisoba stir-fried noodles with pork and cabbage"
+ },
+ {
+  "name": "어묵우동",
+  "slug": "udon",
+  "prompt": "Japanese udon noodle soup with fish cake and green onion"
+ },
+ {
+  "name": "미소된장국",
+  "slug": "miso-soup",
+  "prompt": "Japanese miso soup with tofu cubes and wakame seaweed"
+ },
+ {
+  "name": "오코노미야키",
+  "slug": "okonomiyaki",
+  "prompt": "Japanese okonomiyaki savory pancake with sauce and mayonnaise drizzle"
+ },
+ {
+  "name": "연어덮밥",
+  "slug": "sake-don",
+  "prompt": "Japanese salmon rice bowl sake don with sliced raw salmon and onion"
+ },
+ {
+  "name": "마파두부",
+  "slug": "mapo-tofu",
+  "prompt": "Chinese mapo tofu with minced pork in red chili sauce"
+ },
+ {
+  "name": "토마토계란볶음",
+  "slug": "tomato-egg",
+  "prompt": "Chinese stir-fried tomato and scrambled eggs"
+ },
+ {
+  "name": "계란볶음밥",
+  "slug": "egg-fried-rice",
+  "prompt": "Chinese egg fried rice with green onion and diced ham"
+ },
+ {
+  "name": "짜장밥",
+  "slug": "jjajang-bap",
+  "prompt": "Korean-Chinese jjajang black bean sauce over rice with diced pork and vegetables"
+ },
+ {
+  "name": "고추잡채",
+  "slug": "gochu-japchae",
+  "prompt": "Korean-Chinese gochu japchae stir-fried pork with sliced bell peppers"
+ },
+ {
+  "name": "탕수육",
+  "slug": "tangsuyuk",
+  "prompt": "Korean-Chinese tangsuyuk sweet and sour crispy pork with sauce"
+ },
+ {
+  "name": "가지볶음",
+  "slug": "eggplant-stir-fry",
+  "prompt": "Chinese garlic eggplant stir-fry with minced pork"
+ },
+ {
+  "name": "마라샹궈",
+  "slug": "mala-xiangguo",
+  "prompt": "Chinese mala xiang guo spicy stir-fry pot with bok choy, mushrooms and fish cake"
+ },
+ {
+  "name": "청경채볶음",
+  "slug": "bok-choy-stir-fry",
+  "prompt": "stir-fried bok choy with garlic"
+ },
+ {
+  "name": "크림파스타",
+  "slug": "cream-pasta",
+  "prompt": "creamy pasta with bacon and mushrooms"
+ },
+ {
+  "name": "알리오올리오",
+  "slug": "aglio-olio",
+  "prompt": "spaghetti aglio e olio with garlic and chili flakes"
+ },
+ {
+  "name": "토마토파스타",
+  "slug": "tomato-pasta",
+  "prompt": "spaghetti with fresh tomato sauce and basil"
+ },
+ {
+  "name": "버섯리조또",
+  "slug": "mushroom-risotto",
+  "prompt": "creamy mushroom risotto with parmesan"
+ },
+ {
+  "name": "오믈렛",
+  "slug": "omelette",
+  "prompt": "fluffy French omelette with ham and onion and ketchup"
+ },
+ {
+  "name": "감자수프",
+  "slug": "potato-soup",
+  "prompt": "creamy potato soup in a bowl"
+ },
+ {
+  "name": "스테이크",
+  "slug": "steak",
+  "prompt": "sliced beef steak with roasted garlic and potatoes"
+ },
+ {
+  "name": "프렌치토스트",
+  "slug": "french-toast",
+  "prompt": "golden French toast slices with butter"
+ },
+ {
+  "name": "햄치즈토스트",
+  "slug": "ham-cheese-toast",
+  "prompt": "grilled ham and cheese toast sandwich cut in half"
+ },
+ {
+  "name": "떡볶이",
+  "slug": "tteokbokki",
+  "prompt": "Korean tteokbokki spicy rice cakes with fish cake in red sauce"
+ },
+ {
+  "name": "라볶이",
+  "slug": "rabokki",
+  "prompt": "Korean rabokki spicy rice cakes with ramen noodles and boiled egg"
+ },
+ {
+  "name": "김밥",
+  "slug": "gimbap",
+  "prompt": "Korean gimbap seaweed rice rolls sliced showing colorful fillings"
+ },
+ {
+  "name": "계란라면",
+  "slug": "ramyeon",
+  "prompt": "Korean spicy ramyeon instant noodles with egg and green onion"
+ },
+ {
+  "name": "어묵탕",
+  "slug": "eomuk-tang",
+  "prompt": "Korean fish cake soup eomuk tang with skewers and radish"
+ },
+ {
+  "name": "팟타이",
+  "slug": "pad-thai",
+  "prompt": "Thai pad thai rice noodles with shrimp, bean sprouts and peanuts"
+ },
+ {
+  "name": "나시고랭",
+  "slug": "nasi-goreng",
+  "prompt": "Indonesian nasi goreng fried rice with fried egg and shrimp"
+ },
+ {
+  "name": "소고기쌀국수",
+  "slug": "pho",
+  "prompt": "Vietnamese beef pho noodle soup with herbs and bean sprouts"
+ },
+ {
+  "name": "새우볶음밥",
+  "slug": "shrimp-fried-rice",
+  "prompt": "shrimp fried rice with egg and green onion"
+ },
+ {
+  "name": "똠얌꿍",
+  "slug": "tom-yum",
+  "prompt": "Thai tom yum goong spicy shrimp soup with mushrooms"
+ }
+]

@@ -1,0 +1,29 @@
+name: AI 요리 사진 만들기
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths: ["tools/food_prompts.json", "tools/gen_food_images.py", ".github/workflows/food-images.yml"]
+permissions:
+  contents: write
+concurrency: { group: food-images, cancel-in-progress: false }
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install pillow
+      - run: python tools/gen_food_images.py
+        env:
+          POLLINATIONS_TOKEN: ${{ secrets.POLLINATIONS_TOKEN }}
+      - name: 사진 저장
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add images/food
+          git diff --cached --quiet || git commit -m "AI 요리 사진 추가"
+          git pull --rebase origin main
+          git push origin HEAD:main
