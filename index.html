@@ -51,6 +51,7 @@
   color-scheme: dark;
 }
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+[hidden] { display: none !important; }
 body { background: var(--bg); color: var(--ink); font-family: var(--font); font-size: 15px; line-height: 1.45; letter-spacing: -0.01em; }
 .wrap { max-width: 520px; margin: 0 auto; padding-inline: 20px; padding-block: 20px calc(110px + env(safe-area-inset-bottom, 0px)); display: flex; flex-direction: column; gap: 18px; }
 button, .btn { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; text-decoration: none; }
@@ -194,6 +195,46 @@ nav.tabs .tab[aria-selected="true"] { color: var(--ink); }
 .form label { display: flex; flex-direction: column; gap: 6px; font-size: 12px; color: var(--sub); }
 .form input, .form select { font: inherit; font-size: 16px; padding: 11px 12px; border-radius: 12px; border: 0; background: var(--track); color: var(--ink); width: 100%; min-width: 0; }
 .bigbtn { grid-column: 1 / -1; background: var(--green); color: #fff; border-radius: 14px; padding: 14px; font-weight: 700; font-size: 16px; }
+.item .nm { cursor: pointer; }
+.item .qty { font-size: 13px; font-weight: 500; color: var(--sub); margin-left: 6px; font-variant-numeric: tabular-nums; }
+.waste-btn { flex: none; padding: 7px 12px; border-radius: 999px; background: var(--red-soft); color: var(--red); font-size: 13px; font-weight: 500; }
+.scan { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.scanbtn { position: relative; background: var(--card); border-radius: 16px; padding: 14px; box-shadow: var(--shadow); display: flex; align-items: center; gap: 10px; font-weight: 500; font-size: 14px; cursor: pointer; }
+.scanbtn input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.scanbtn svg { color: var(--green-ink); flex: none; }
+.scanmsg { font-size: 13px; color: var(--sub); background: var(--card); border-radius: 14px; padding: 12px 14px; box-shadow: var(--shadow); }
+.found { display: flex; flex-direction: column; background: var(--card); border-radius: 16px; box-shadow: var(--shadow); overflow: hidden; }
+.found label { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-top: 1px solid var(--line); font-size: 15px; }
+.found label:first-child { border-top: 0; }
+.found input { width: 20px; height: 20px; accent-color: var(--green); }
+.found .pr { margin-left: auto; color: var(--sub); font-size: 13px; font-variant-numeric: tabular-nums; }
+.btnrow { display: flex; gap: 8px; flex-wrap: wrap; grid-column: 1 / -1; }
+.btnrow button { flex: 1; min-width: 30%; padding: 12px 8px; border-radius: 12px; font-weight: 500; font-size: 14px; background: var(--track); }
+.btnrow .g { background: var(--green-soft); color: var(--green-ink); }
+.btnrow .r { background: var(--red-soft); color: var(--red); }
+.report { background: var(--card); border-radius: 20px; padding: 18px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px; }
+.report .month { display: flex; justify-content: space-between; align-items: center; font-weight: 500; }
+.report .month button { width: 34px; height: 34px; border-radius: 50%; background: var(--track); display: grid; place-items: center; }
+.big { font-size: 34px; font-weight: 700; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; color: var(--red); line-height: 1.1; }
+.big small { font-size: 14px; font-weight: 400; color: var(--sub); margin-left: 6px; letter-spacing: 0; }
+.kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+.kpi { background: var(--bg); border-radius: 14px; padding: 10px 12px; }
+.kpi b { display: block; font-size: 18px; font-variant-numeric: tabular-nums; }
+.kpi span { font-size: 12px; color: var(--sub); }
+.ratio { height: 10px; border-radius: 5px; background: var(--red-soft); overflow: hidden; }
+.ratio i { display: block; height: 100%; background: var(--green); }
+.hbar { display: grid; grid-template-columns: 72px 1fr auto; gap: 10px; align-items: center; font-size: 13px; }
+.hbar .t { height: 8px; border-radius: 4px; background: var(--track); overflow: hidden; }
+.hbar .t i { display: block; height: 100%; background: var(--red); border-radius: 4px; }
+.hbar em { font-style: normal; color: var(--sub); font-variant-numeric: tabular-nums; }
+.loglist { display: flex; flex-direction: column; background: var(--card); border-radius: 18px; box-shadow: var(--shadow); overflow: hidden; }
+.logrow { display: flex; align-items: center; gap: 10px; padding: 12px 16px; border-top: 1px solid var(--line); font-size: 14px; }
+.logrow:first-child { border-top: 0; }
+.logrow .k { font-size: 11px; padding: 2px 8px; border-radius: 999px; flex: none; }
+.k.waste { background: var(--red-soft); color: var(--red); } .k.use { background: var(--green-soft); color: var(--green-ink); }
+.logrow .d { color: var(--faint); font-size: 12px; margin-left: auto; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.logrow .w { color: var(--sub); font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.sec { font-size: 15px; font-weight: 700; margin: 4px 0 -6px; }
 .toast { position: fixed; left: 50%; transform: translateX(-50%); top: calc(16px + env(safe-area-inset-top, 0px)); background: var(--ink); color: var(--card); padding: 10px 16px; border-radius: 999px; font-size: 14px; z-index: 30; white-space: nowrap; }
 @media (prefers-reduced-motion: no-preference) {
   .sheet { animation: up .22s ease-out; }
@@ -210,20 +251,20 @@ nav.tabs .tab[aria-selected="true"] { color: var(--ink); }
   <section id="tab-fridge" class="wrap-inner" style="display:flex;flex-direction:column;gap:18px">
     <div class="top">
       <div><h1 class="title green">나의 냉장고</h1><div class="date" id="today"></div></div>
-      <button class="circle-btn" data-go="more" aria-label="더보기">
+      <button class="circle-btn" data-go="more" aria-label="기록과 설정">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
       </button>
     </div>
     <div class="sample-note" id="sampleNote" hidden><span>예시 재료가 들어 있어요</span><button class="link" id="clearSample">지우고 시작</button></div>
     <div class="tiles">
-      <button class="tile soon" id="tileSoon" aria-pressed="false"><span>유통기한 임박</span><b id="nSoon">0</b></button>
-      <button class="tile over" id="tileOver" aria-pressed="false"><span>유통기한 지남</span><b id="nOver">0</b></button>
+      <button class="tile soon" id="tileSoon" aria-pressed="false"><span>소비기한 임박</span><b id="nSoon">0</b></button>
+      <button class="tile over" id="tileOver" aria-pressed="false"><span>소비기한 지남</span><b id="nOver">0</b></button>
     </div>
     <label class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
       <span class="hidden-label">재료 검색</span><input id="q" type="search" placeholder="검색" autocomplete="off"></label>
     <div class="chips" id="catChips" role="group" aria-label="종류"></div>
     <div class="listhead">
-      <span>품목 <b id="nItems">0</b> · <select class="sort" id="sort" aria-label="정렬"><option value="exp">유통기한 임박순</option><option value="new">최근 넣은 순</option><option value="name">이름순</option></select></span>
+      <span>품목 <b id="nItems">0</b> · <select class="sort" id="sort" aria-label="정렬"><option value="exp">소비기한 임박순</option><option value="new">최근 넣은 순</option><option value="name">이름순</option></select></span>
       <div class="seg" id="placeSeg" role="group" aria-label="보관 칸">
         <button data-p="전체" aria-pressed="true">전체</button><button data-p="냉장" aria-pressed="false">냉장</button><button data-p="냉동" aria-pressed="false">냉동</button><button data-p="실온" aria-pressed="false">실온</button>
       </div>
@@ -250,17 +291,35 @@ nav.tabs .tab[aria-selected="true"] { color: var(--ink); }
       <button id="sAdd">추가</button>
     </div>
     <div id="shopList"></div>
+    <button class="bigbtn" id="allToFridge" hidden>산 것 모두 냉장고에 넣기</button>
     <p class="fine">쿠팡·네이버쇼핑 검색으로 연결돼요. 나중에 제휴 링크로 바뀌면 냉장쿡이 일정 수수료를 받을 수 있고, 그때 이 안내도 함께 바뀝니다.</p>
   </section>
 
   <!-- 더보기 -->
   <section id="tab-more" hidden style="flex-direction:column;gap:18px">
-    <h1 class="title">더보기<small>냉장쿡 v0.6</small></h1>
+    <h1 class="title">기록<small>얼마나 쓰고 얼마나 버렸나</small></h1>
+    <div class="report">
+      <div class="month"><button id="mPrev" aria-label="이전 달"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M15 6l-6 6 6 6"/></svg></button><span id="mLabel"></span><button id="mNext" aria-label="다음 달"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M9 6l6 6-6 6"/></svg></button></div>
+      <div><div class="fine">이번 달 버린 금액</div><div class="big" id="wasteSum">0원</div></div>
+      <div class="kpis">
+        <div class="kpi"><b id="kWaste">0</b><span>폐기</span></div>
+        <div class="kpi"><b id="kUse">0</b><span>다 먹음</span></div>
+        <div class="kpi"><b id="kRate">-</b><span>알뜰 소진율</span></div>
+      </div>
+      <div class="ratio" aria-hidden="true"><i id="rateBar" style="width:0%"></i></div>
+      <div id="estNote" class="fine" hidden></div>
+    </div>
+    <div class="sec" id="topHead">많이 버린 재료</div>
+    <div class="report" id="topWaste" style="gap:10px"></div>
+    <div class="sec">최근 기록</div>
+    <div id="logList"></div>
+    <div class="sec">설정</div>
     <div class="menu">
+      <div><span>버전</span><span class="fine">냉장쿡 v0.7</span></div>
       <div><span>재료 저장 위치</span><span class="fine">이 휴대폰에만 저장</span></div>
       <div><span>요리 수</span><span class="fine" id="recipeCount"></span></div>
       <div><span>음식 사진</span><span class="fine">위키백과·위키미디어 공용</span></div>
-      <button id="resetAll" class="danger">모든 재료와 장보기 지우기</button>
+      <button id="resetAll" class="danger">모든 재료·장보기·기록 지우기</button>
       <div id="resetConfirm" hidden><span>정말 지울까요?</span><span style="display:flex;gap:8px"><button class="mini" id="resetNo">취소</button><button class="mini danger" id="resetYes">지우기</button></span></div>
     </div>
     <p class="fine">재료 목록은 지금 쓰는 휴대폰 브라우저에만 저장돼요. 브라우저 기록을 지우면 함께 지워질 수 있어요.</p>
@@ -274,7 +333,7 @@ nav.tabs .tab[aria-selected="true"] { color: var(--ink); }
     <button class="tab" data-go="cook" aria-selected="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M3.5 11.5h17a8.5 8.5 0 0 1-17 0z"/><path d="M9 4.5c0 1.5-1 2-1 3.5M13 4.5c0 1.5-1 2-1 3.5"/></svg>요리 추천</button>
     <button class="fab" id="openAdd" aria-label="재료 넣기"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
     <button class="tab" data-go="shop" aria-selected="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>장보기</button>
-    <button class="tab" data-go="more" aria-selected="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c1.2-3.5 3.8-5 7-5s5.8 1.5 7 5"/></svg>더보기</button>
+    <button class="tab" data-go="more" aria-selected="false"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 20V10M10 20V4M16 20v-7M21 20H3"/></svg>기록</button>
   </div>
 </nav>
 
@@ -283,13 +342,47 @@ nav.tabs .tab[aria-selected="true"] { color: var(--ink); }
   <div class="inner">
     <div class="grab"></div>
     <h2>재료 넣기 <button class="link" id="closeAdd">완료</button></h2>
+    <div class="scan">
+      <label class="scanbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 7V5a1 1 0 0 1 1-1h2M17 4h2a1 1 0 0 1 1 1v2M20 17v2a1 1 0 0 1-1 1h-2M7 20H5a1 1 0 0 1-1-1v-2M8 8v8M11 8v8M14 8v8M17 8v8"/></svg>바코드 찍기<input type="file" accept="image/*" capture="environment" id="barcodeFile" aria-label="바코드 사진 찍기"></label>
+      <label class="scanbtn"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12v18l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5L6 21z"/><path d="M9 8h6M9 12h6M9 16h3"/></svg>영수증 찍기<input type="file" accept="image/*" capture="environment" id="receiptFile" aria-label="영수증 사진 찍기"></label>
+    </div>
+    <div class="scanmsg" id="scanMsg" hidden></div>
+    <div id="foundBox" hidden style="display:flex;flex-direction:column;gap:10px">
+      <div class="found" id="foundList"></div>
+      <button class="bigbtn" id="foundAdd">고른 재료 모두 넣기</button>
+    </div>
     <div class="chips" id="addCats" role="group" aria-label="재료 종류"></div>
     <div class="qgrid" id="quick"></div>
     <div class="form">
       <label class="full">직접 입력<input id="fName" placeholder="예: 두부" autocomplete="off"></label>
       <label>보관<select id="fPlace"><option>냉장</option><option>냉동</option><option>실온</option></select></label>
-      <label>유통기한<input id="fDate" type="date"></label>
+      <label>소비기한<input id="fDate" type="date"></label>
+      <label>수량<span style="display:flex;gap:6px"><input id="fQty" type="number" inputmode="decimal" min="0" step="1" value="1" style="flex:1"><select id="fUnit" style="width:74px"><option>개</option><option>팩</option><option>봉</option><option>병</option><option>g</option><option>ml</option></select></span></label>
+      <label>가격(원)<input id="fPrice" type="number" inputmode="numeric" min="0" step="100" placeholder="모르면 비워두기"></label>
       <button class="bigbtn" id="addBtn">냉장고에 넣기</button>
+    </div>
+  </div>
+</div>
+<div class="sheet" id="editSheet" role="dialog" aria-label="재료 수정" hidden>
+  <div class="inner">
+    <div class="grab"></div>
+    <h2><span id="eTitle">재료 수정</span> <button class="link" id="closeEdit">닫기</button></h2>
+    <div class="form">
+      <label class="full">이름<input id="eName" autocomplete="off"></label>
+      <label>보관<select id="ePlace"><option>냉장</option><option>냉동</option><option>실온</option></select></label>
+      <label>소비기한<input id="eDate" type="date"></label>
+      <label>수량<span style="display:flex;gap:6px"><input id="eQty" type="number" inputmode="decimal" min="0" step="1" style="flex:1"><select id="eUnit" style="width:74px"><option>개</option><option>팩</option><option>봉</option><option>병</option><option>g</option><option>ml</option></select></span></label>
+      <label>가격(원)<input id="ePrice" type="number" inputmode="numeric" min="0" step="100" placeholder="모르면 비워두기"></label>
+      <button class="bigbtn" id="eSave">저장</button>
+      <div class="btnrow">
+        <button class="g" id="eUseOne">1만큼 사용</button>
+        <button class="g" id="eUseAll">전량 사용</button>
+      </div>
+      <div class="btnrow">
+        <button class="r" id="eWaste">폐기</button>
+        <button id="eDelete">잘못 넣음 · 삭제</button>
+      </div>
+      <p class="fine full" style="margin:0">전량 사용과 폐기는 기록 탭에 쌓여서, 한 달에 얼마나 버렸는지 볼 수 있어요. 잘못 넣은 재료는 삭제하면 기록에 남지 않아요.</p>
     </div>
   </div>
 </div>
@@ -531,10 +624,12 @@ const shelf = n => (FOODS[n] || FOODS[norm(n)] || ["냉장", 7]);
 
 function sample() {
   const mk = (n, d) => ({ id: uid(), name: n, place: shelf(n)[0], exp: addDays(d), total: shelf(n)[1], added: Date.now(), sample: true });
-  return { items: [mk("두부",1), mk("김치",40), mk("돼지고기",2), mk("계란",12), mk("양파",20), mk("애호박",3), mk("밥",25), mk("우유",5), mk("간장",200), mk("고추장",150), mk("참기름",90)],
+  return { log: [], barcodes: {}, items: [mk("두부",1), mk("김치",40), mk("돼지고기",2), mk("계란",12), mk("양파",20), mk("애호박",3), mk("밥",25), mk("우유",5), mk("간장",200), mk("고추장",150), mk("참기름",90)],
            shop: [{ id: uid(), name: "대파", done: false, sample: true }] };
 }
 let state = load() || sample();
+state.log = state.log || []; state.barcodes = state.barcodes || {};
+state.items.forEach(it => { if (it.qty == null) { it.qty = 1; it.unit = "개"; } if (it.qty0 == null) it.qty0 = it.qty; });
 state = Object.assign({ tab: "fridge", place: "전체", cat: "전체", cuisine: "전체", sort: "exp", view: "", addCat: CAT_NAMES[0] }, state);
 if (!["전체","냉장","냉동","실온"].includes(state.place)) state.place = "전체";
 if (!["fridge","cook","shop","more"].includes(state.tab)) state.tab = "fridge";
@@ -612,14 +707,15 @@ function renderFridge() {
     const leafC = st === "soon" ? "var(--amber)" : st === "over" ? "var(--red)" : "var(--green)";
     const pos = `calc(21px + (100% - 42px) * ${pct / 100})`;
     return `<article class="item st-${st}">
-      <div class="row1"><span class="nm">${esc(it.name)}<span class="tag">${it.place}${it.sample ? " · 예시" : ""}</span></span>
+      <div class="row1"><span class="nm" data-edit="${it.id}" role="button" tabindex="0">${esc(it.name)}<span class="qty">${fmtQty(it)}</span><span class="tag">${it.place}${it.sample ? " · 예시" : ""}</span></span>
         <span class="exp">${it.exp ? it.exp.replace(/-/g, ". ") : "기한 없음"}</span></div>
       <div class="row2">
         <div class="bar" aria-label="${esc(it.name)} 남은 기한 ${label}">
           <span class="track"></span><span class="fill" style="width:${pos}"></span>
           <span class="badge" style="left:${pos}">${st === "over" ? "" : LEAF(leafC)}${label}</span>
         </div>
-        <button class="done-btn" data-use="${it.id}" aria-label="${esc(it.name)} 다 먹음">${ICON_CHECK}</button>
+        ${st === "over" ? `<button class="waste-btn" data-waste="${it.id}">폐기</button>` : ""}
+        <button class="done-btn" data-use="${it.id}" aria-label="${esc(it.name)} 전량 사용">${ICON_CHECK}</button>
       </div>
     </article>`;
   }).join("");
@@ -659,6 +755,7 @@ function renderCook() {
 
 function renderShop() {
   const left = state.shop.filter(s => !s.done).length;
+  $("allToFridge").hidden = state.shop.filter(s => s.done).length < 2;
   $("shopSub").textContent = `살 것 ${left}개`;
   const items = [...state.shop].sort((a, b) => a.done - b.done);
   $("shopList").innerHTML = items.length ? `<div class="shop">${items.map(s => `
@@ -672,7 +769,178 @@ function renderShop() {
     </div>`).join("")}</div>` : '<div class="empty">요리 추천에서 부족한 재료를 담아 보세요</div>';
 }
 
-function renderMore() { $("recipeCount").textContent = `${RECIPES.length}가지 · 6개 나라`; }
+function renderMore() {
+  $("recipeCount").textContent = `${RECIPES.length}가지 · 6개 나라`;
+  const ym = state.month || iso(today()).slice(0, 7);
+  const [y, m] = ym.split("-").map(Number);
+  $("mLabel").textContent = `${y}년 ${m}월`;
+  const logs = state.log.filter(l => l.date.slice(0, 7) === ym);
+  const wastes = logs.filter(l => l.t === "waste"), uses = logs.filter(l => l.t === "use");
+  const sum = wastes.reduce((a, l) => a + l.value, 0);
+  $("wasteSum").innerHTML = `${won(sum)}<small>${wastes.length}건</small>`;
+  $("kWaste").textContent = wastes.length; $("kUse").textContent = uses.length;
+  const rate = logs.length ? Math.round(uses.length / logs.length * 100) : null;
+  $("kRate").textContent = rate === null ? "-" : rate + "%";
+  $("rateBar").style.width = (rate || 0) + "%";
+  const est = wastes.filter(l => l.est).length;
+  $("estNote").hidden = !est; $("estNote").textContent = `가격을 안 적은 ${est}건은 평균 가격(가정)으로 계산했어요. 재료 가격을 적으면 더 정확해져요.`;
+  const by = {}; wastes.forEach(l => { by[l.name] = (by[l.name] || 0) + l.value; });
+  const top = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 5), mx = top.length ? top[0][1] : 1;
+  $("topHead").hidden = $("topWaste").hidden = !top.length;
+  $("topWaste").innerHTML = top.map(([n, v]) => `<div class="hbar"><span>${esc(n)}</span><span class="t"><i style="width:${Math.max(4, v / mx * 100)}%"></i></span><em>${won(v)}</em></div>`).join("");
+  const recent = [...logs].reverse().slice(0, 30);
+  $("logList").innerHTML = recent.length ? `<div class="loglist">${recent.map(l => `<div class="logrow"><span class="k ${l.t}">${l.t === "waste" ? "폐기" : "다 먹음"}</span><span>${esc(l.name)} <span class="w">${l.qtyText}</span></span>${l.t === "waste" ? `<span class="w">${won(l.value)}</span>` : ""}<span class="d">${l.date.slice(5).replace("-", "/")}</span></div>`).join("")}</div>`
+    : '<div class="empty">이 달에는 아직 기록이 없어요<br>재료를 다 먹거나 버리면 여기에 쌓여요</div>';
+}
+
+// ===== 가격 (가정): 가격을 안 적으면 이 값으로 폐기금액 계산 =====
+const PRICE = { "계란":7000,"우유":3000,"두부":1800,"순두부":1500,"대파":2500,"양파":1500,"감자":3000,"당근":1500,"애호박":1800,"버섯":2000,"배추":4000,
+  "양배추":3000,"시금치":2500,"콩나물":1200,"숙주":1200,"고추":2000,"마늘":3000,"토마토":4000,"오이":1500,"상추":2000,"깻잎":1500,"브로콜리":2500,
+  "사과":5000,"바나나":3500,"돼지고기":10000,"소고기":18000,"닭고기":8000,"다짐육":7000,"베이컨":5000,"햄":4000,"소시지":4000,"새우":9000,"연어":12000,
+  "오징어":7000,"고등어":5000,"어묵":3000,"치즈":5000,"버터":7000,"요거트":3000,"생크림":4000,"김치":8000,"밥":1500,"떡":3000,"만두":7000,"식빵":3000,
+  "라면":1000,"우동면":2000,"파스타면":3000 };
+const CAT_PRICE = { "채소·과일":2500,"고기":9000,"해산물":7000,"달걀·유제품":4000,"두부·김치":3000,"밥·면·빵":3000,"소스·양념":4000,"가루·기타":3000 };
+const won = v => Math.round(v).toLocaleString("ko-KR") + "원";
+const fmtQty = it => it.qty == null ? "" : `${+Number(it.qty).toFixed(2)}${it.unit || "개"}`;
+function itemValue(it, part) {
+  const base = it.price || PRICE[norm(it.name)] || CAT_PRICE[catOf(it.name)] || 3000;
+  const ratio = it.qty0 > 0 ? Math.min(1, part / it.qty0) : 1;
+  return { value: base * ratio, est: !it.price };
+}
+// 전량 사용(use) 또는 폐기(waste): 남은 양 전부를 기록하고 냉장고에서 뺌
+function finish(id, t) {
+  const it = state.items.find(x => x.id === id); if (!it) return;
+  const v = itemValue(it, it.qty);
+  state.log.push({ t, name: it.name, qtyText: fmtQty(it), value: v.value, est: v.est, date: iso(today()), cat: catOf(it.name) });
+  state.items = state.items.filter(x => x.id !== id);
+  closeEdit(); render(); toast(t === "waste" ? `${it.name} 폐기했어요 (${won(v.value)})` : `${it.name} 다 먹었어요`);
+}
+
+// ===== 수정 창 =====
+let editId = null;
+function openEdit(id) {
+  const it = state.items.find(x => x.id === id); if (!it) return;
+  editId = id;
+  $("eTitle").textContent = it.name; $("eName").value = it.name; $("ePlace").value = it.place; $("eDate").value = it.exp || "";
+  $("eQty").value = it.qty ?? 1; $("eUnit").value = it.unit || "개"; $("ePrice").value = it.price || "";
+  $("eUseOne").textContent = `1${it.unit || "개"} 사용`;
+  $("editSheet").hidden = false; $("sheetBg").hidden = false;
+}
+function closeEdit() { editId = null; $("editSheet").hidden = true; if ($("sheet").hidden) $("sheetBg").hidden = true; }
+$("closeEdit").addEventListener("click", closeEdit);
+$("eSave").addEventListener("click", () => {
+  const it = state.items.find(x => x.id === editId); if (!it) return;
+  const name = $("eName").value.trim(); if (!name) { toast("이름을 적어 주세요"); return; }
+  const q = Number($("eQty").value);
+  Object.assign(it, { name, place: $("ePlace").value, exp: $("eDate").value || "", unit: $("eUnit").value, price: Number($("ePrice").value) > 0 ? Number($("ePrice").value) : null });
+  if (q > 0) { if (q > it.qty0) it.qty0 = q; it.qty = q; }
+  if (it.exp) { const d = daysLeft(it.exp); if (d > (it.total || 0)) it.total = d; }
+  delete it.sample; closeEdit(); render(); toast("저장했어요");
+});
+$("eUseOne").addEventListener("click", () => {
+  const it = state.items.find(x => x.id === editId); if (!it) return;
+  if ((it.qty ?? 1) <= 1) { finish(it.id, "use"); return; }
+  it.qty = +(it.qty - 1).toFixed(2); $("eQty").value = it.qty; render(); toast(`${it.name} 1${it.unit} 사용, ${fmtQty(it)} 남았어요`);
+});
+$("eUseAll").addEventListener("click", () => finish(editId, "use"));
+$("eWaste").addEventListener("click", () => finish(editId, "waste"));
+$("eDelete").addEventListener("click", () => { state.items = state.items.filter(x => x.id !== editId); closeEdit(); render(); toast("삭제했어요"); });
+$("mPrev").addEventListener("click", () => { const [y, m] = (state.month || iso(today()).slice(0, 7)).split("-").map(Number); const d = new Date(y, m - 2, 1); state.month = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; render(); });
+$("mNext").addEventListener("click", () => { const [y, m] = (state.month || iso(today()).slice(0, 7)).split("-").map(Number); const d = new Date(y, m, 1); state.month = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}`; render(); });
+$("allToFridge").addEventListener("click", () => {
+  const done = state.shop.filter(x => x.done); done.forEach(s => { const f = shelf(s.name); addItem(s.name, f[0], addDays(f[1]), 1, "개", null, null, true); });
+  state.shop = state.shop.filter(x => !x.done); render(); toast(`${done.length}개 냉장고에 넣었어요`);
+});
+
+// ===== 바코드·영수증 인식 (휴대폰에서 실행) =====
+let pendingBarcode = null;
+const loaded = {};
+function loadScript(src) {
+  return loaded[src] = loaded[src] || new Promise((ok, no) => { const s = document.createElement("script"); s.src = src; s.onload = ok; s.onerror = () => { delete loaded[src]; no(new Error("load")); }; document.head.appendChild(s); });
+}
+function scanMsg(t) { $("scanMsg").hidden = !t; $("scanMsg").textContent = t || ""; }
+// 상품명 속에서 아는 재료 이름 찾기 (긴 이름부터, 두 글자 이상)
+const VOCAB = [...new Set([...Object.keys(FOODS), ...Object.keys(ALIAS)])].filter(n => n.length >= 2).sort((a, b) => b.length - a.length);
+function guessFood(text) { const t = String(text).replace(/\s+/g, ""); const n = VOCAB.find(v => t.includes(v)); return n ? norm(n) : null; }
+
+async function readBarcode(file) {
+  const url = URL.createObjectURL(file);
+  try {
+    if ("BarcodeDetector" in window) {
+      try {
+        const bmp = await createImageBitmap(file);
+        const r = await new BarcodeDetector({ formats: ["ean_13", "ean_8", "upc_a", "upc_e", "code_128"] }).detect(bmp);
+        if (r.length) return r[0].rawValue;
+      } catch (e) {}
+    }
+    await loadScript("https://cdn.jsdelivr.net/npm/@zxing/library@0.21.3/umd/index.min.js");
+    const res = await new ZXing.BrowserMultiFormatReader().decodeFromImageUrl(url);
+    return res.getText();
+  } finally { URL.revokeObjectURL(url); }
+}
+async function lookupProduct(code) {
+  if (state.barcodes[code]) return state.barcodes[code];
+  try {
+    const r = await fetch(`https://world.openfoodfacts.org/api/v2/product/${code}.json?fields=product_name,product_name_ko,generic_name`);
+    if (!r.ok) return null;
+    const j = await r.json(); const p = j.product || {};
+    return p.product_name_ko || p.product_name || p.generic_name || null;
+  } catch (e) { return null; }
+}
+$("barcodeFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  $("foundBox").hidden = true; scanMsg("바코드를 읽는 중이에요…");
+  let code;
+  try { code = await readBarcode(f); } catch (err) { code = null; }
+  if (!code) { scanMsg("바코드를 못 읽었어요. 바코드가 화면 가운데에 크고 선명하게 나오도록 다시 찍어 주세요."); return; }
+  scanMsg(`바코드 ${code} · 상품 정보를 찾는 중이에요…`);
+  const pname = await lookupProduct(code);
+  const food = pname ? guessFood(pname) : null;
+  pendingBarcode = code;
+  $("fName").value = food || pname || "";
+  if (food) { const s0 = shelf(food); $("fPlace").value = s0[0]; $("fDate").value = addDays(s0[1]); }
+  if (pname) scanMsg(`"${pname}"${food ? ` → ${food}(으)로 넣을게요` : ""}. 소비기한을 확인하고 "냉장고에 넣기"를 눌러 주세요.`);
+  else scanMsg(`바코드 ${code}의 상품 정보가 없어요. 아래에 이름을 적어 넣으면 다음부터는 이 바코드를 기억할게요.`);
+  $("fName").focus();
+});
+
+// 영수증: 휴대폰에서 글자를 읽고(한국어 OCR), 아는 재료 이름과 가격을 찾아냄
+function parseReceipt(text) {
+  const out = [], seen = new Set();
+  text.split(/\n+/).forEach(line => {
+    let t = line.replace(/\s+/g, "");
+    const nums = (line.match(/\d{1,3}(?:[,.]\d{3})+|\d{3,6}/g) || []).map(x => Number(x.replace(/[,.]/g, ""))).filter(v => v >= 100 && v <= 300000);
+    for (const v of VOCAB) {
+      const i = t.indexOf(v); if (i < 0) continue;
+      t = t.slice(0, i) + " ".repeat(v.length) + t.slice(i + v.length);  // 같은 줄에서 중복 방지
+      const n = norm(v); if (seen.has(n)) continue; seen.add(n);
+      out.push({ name: n, price: nums.length ? nums[nums.length - 1] : null });
+    }
+  });
+  return out;
+}
+let found = [];
+function showFound() {
+  $("foundBox").hidden = !found.length; $("foundBox").style.display = found.length ? "flex" : "none";
+  $("foundList").innerHTML = found.map((f, i) => `<label><input type="checkbox" data-fi="${i}" checked> ${esc(f.name)}<span class="pr">${f.price ? won(f.price) : ""}</span></label>`).join("");
+}
+$("receiptFile").addEventListener("change", async e => {
+  const f = e.target.files[0]; e.target.value = ""; if (!f) return;
+  found = []; showFound(); scanMsg("영수증 글자를 읽는 중이에요. 처음 한 번은 한국어 글자 자료를 받느라 30초쯤 걸려요…");
+  try {
+    await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
+    const { data } = await Tesseract.recognize(f, "kor", { logger: m => { if (m.status === "recognizing text") scanMsg(`영수증 글자를 읽는 중이에요… ${Math.round(m.progress * 100)}%`); } });
+    found = parseReceipt(data.text || "");
+    if (!found.length) { scanMsg("영수증에서 아는 재료를 못 찾았어요. 영수증을 평평하게 펴고 밝은 곳에서 다시 찍어 주세요."); return; }
+    scanMsg(`영수증에서 재료 ${found.length}개를 찾았어요. 빼고 싶은 건 체크를 풀고 넣어 주세요.`);
+    showFound();
+  } catch (err) { scanMsg("영수증 읽기에 실패했어요. 인터넷 연결을 확인하고 다시 해 주세요."); }
+});
+$("foundAdd").addEventListener("click", () => {
+  const pick = [...document.querySelectorAll("#foundList [data-fi]")].filter(x => x.checked).map(x => found[+x.dataset.fi]);
+  pick.forEach(f => { const s0 = shelf(f.name); addItem(f.name, s0[0], addDays(s0[1]), 1, "개", f.price, null, true); });
+  found = []; showFound(); scanMsg(""); render(); toast(`${pick.length}개 넣었어요`);
+});
 
 function renderSheet() {
   $("addCats").innerHTML = CAT_NAMES.map(c => `<button class="chip" data-ac="${c}" aria-pressed="${c === state.addCat}">${c}</button>`).join("");
@@ -691,18 +959,21 @@ function render() { renderTabs(); renderFridge(); renderCook(); renderShop(); re
 function go(t) { state.tab = t; render(); window.scrollTo(0, 0); }
 document.addEventListener("click", e => { const b = e.target.closest("[data-go]"); if (b) go(b.dataset.go); });
 
-function addItem(name, place, exp) {
-  name = name.trim(); if (!name) { toast("재료 이름을 적어 주세요"); return; }
+function addItem(name, place, exp, qty, unit, price, barcode, quiet) {
+  name = String(name || "").trim(); if (!name) { toast("재료 이름을 적어 주세요"); return; }
   const d = exp ? daysLeft(exp) : null;
-  state.items.push({ id: uid(), name, place, exp: exp || "", total: Math.max(1, d ?? shelf(name)[1]), added: Date.now() });
-  render(); toast(`${name} 넣었어요`);
+  qty = Number(qty) > 0 ? Number(qty) : 1;
+  state.items.push({ id: uid(), name, place, exp: exp || "", total: Math.max(1, d ?? shelf(name)[1]), added: Date.now(),
+    qty, qty0: qty, unit: unit || "개", price: Number(price) > 0 ? Number(price) : null, barcode: barcode || undefined });
+  if (barcode) state.barcodes[barcode] = name;
+  if (!quiet) { render(); toast(`${name} 넣었어요`); }
 }
 function openSheet() { $("sheet").hidden = false; $("sheetBg").hidden = false; renderSheet(); }
 function closeSheet() { $("sheet").hidden = true; $("sheetBg").hidden = true; }
 $("openAdd").addEventListener("click", openSheet);
 $("closeAdd").addEventListener("click", closeSheet);
-$("sheetBg").addEventListener("click", closeSheet);
-document.addEventListener("keydown", e => { if (e.key === "Escape") closeSheet(); });
+$("sheetBg").addEventListener("click", () => { closeSheet(); closeEdit(); });
+document.addEventListener("keydown", e => { if (e.key === "Escape") { closeSheet(); closeEdit(); } });
 $("addCats").addEventListener("click", e => { const b = e.target.closest("[data-ac]"); if (b) { state.addCat = b.dataset.ac; renderSheet(); save(); } });
 $("quick").addEventListener("click", e => {
   const b = e.target.closest("[data-quick]"); if (!b) return; const n = b.dataset.quick;
@@ -710,7 +981,10 @@ $("quick").addEventListener("click", e => {
   const f = shelf(n); addItem(n, f[0], addDays(f[1]));
 });
 $("fName").addEventListener("input", () => { const k = norm($("fName").value); if (FOODS[k]) { $("fPlace").value = FOODS[k][0]; $("fDate").value = addDays(FOODS[k][1]); } });
-$("addBtn").addEventListener("click", () => { addItem($("fName").value, $("fPlace").value, $("fDate").value); $("fName").value = ""; $("fDate").value = ""; });
+$("addBtn").addEventListener("click", () => {
+  addItem($("fName").value, $("fPlace").value, $("fDate").value, $("fQty").value, $("fUnit").value, $("fPrice").value, pendingBarcode);
+  pendingBarcode = null; $("fName").value = ""; $("fDate").value = ""; $("fQty").value = 1; $("fPrice").value = "";
+});
 $("fName").addEventListener("keydown", e => { if (e.key === "Enter") $("addBtn").click(); });
 
 $("q").addEventListener("input", renderFridge);
@@ -720,10 +994,11 @@ $("catChips").addEventListener("click", e => { const b = e.target.closest("[data
 $("tileSoon").addEventListener("click", () => { state.view = state.view === "soon" ? "" : "soon"; render(); });
 $("tileOver").addEventListener("click", () => { state.view = state.view === "over" ? "" : "over"; render(); });
 $("items").addEventListener("click", e => {
-  const b = e.target.closest("[data-use]"); if (!b) return;
-  const it = state.items.find(x => x.id === b.dataset.use);
-  state.items = state.items.filter(x => x.id !== it.id); render(); toast(`${it.name} 다 먹었어요`);
+  const ed = e.target.closest("[data-edit]"); if (ed) { openEdit(ed.dataset.edit); return; }
+  const w = e.target.closest("[data-waste]"); if (w) { finish(w.dataset.waste, "waste"); return; }
+  const b = e.target.closest("[data-use]"); if (b) finish(b.dataset.use, "use");
 });
+$("items").addEventListener("keydown", e => { const ed = e.target.closest("[data-edit]"); if (ed && (e.key === "Enter" || e.key === " ")) { e.preventDefault(); openEdit(ed.dataset.edit); } });
 $("clearSample").addEventListener("click", () => { state.items = state.items.filter(x => !x.sample); state.shop = state.shop.filter(x => !x.sample); render(); toast("예시를 지웠어요"); });
 
 $("cuisineChips").addEventListener("click", e => { const b = e.target.closest("[data-cz]"); if (b) { state.cuisine = b.dataset.cz; render(); } });
@@ -742,7 +1017,7 @@ $("shopList").addEventListener("click", e => {
   if (t.dataset.del) state.shop = state.shop.filter(x => x.id !== t.dataset.del);
   if (t.dataset.tofridge) {
     const s = state.shop.find(x => x.id === t.dataset.tofridge); const f = shelf(s.name);
-    state.items.push({ id: uid(), name: s.name, place: f[0], exp: addDays(f[1]), total: f[1], added: Date.now() });
+    addItem(s.name, f[0], addDays(f[1]), 1, "개", null, null, true);
     state.shop = state.shop.filter(x => x.id !== s.id); toast(`${s.name} 냉장고에 넣었어요`);
   }
   render();
@@ -750,7 +1025,7 @@ $("shopList").addEventListener("click", e => {
 
 $("resetAll").addEventListener("click", () => { $("resetConfirm").hidden = false; });
 $("resetNo").addEventListener("click", () => { $("resetConfirm").hidden = true; });
-$("resetYes").addEventListener("click", () => { state.items = []; state.shop = []; $("resetConfirm").hidden = true; render(); toast("모두 지웠어요"); });
+$("resetYes").addEventListener("click", () => { state.items = []; state.shop = []; state.log = []; $("resetConfirm").hidden = true; render(); toast("모두 지웠어요"); });
 
 render();
 </script>
