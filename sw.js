@@ -1,6 +1,6 @@
 // 냉장쿡 서비스 워커: 앱 파일을 저장해 두고 오프라인에서도 열리게 함.
 // 앱을 고칠 때마다 아래 버전 숫자를 올리면 휴대폰에 새 버전이 반영됨.
-const VERSION = "naengjangcook-v0.4";
+const VERSION = "naengjangcook-v0.4.1";
 const FILES = ["./", "index.html", "manifest.webmanifest", "icon-192.png", "icon-512.png", "apple-touch-icon.png"];
 
 self.addEventListener("install", e => {
