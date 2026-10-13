@@ -28,7 +28,9 @@ for i, it in enumerate(items):
             req = urllib.request.Request(url, headers={"User-Agent": "naengjangcook-builder"} | ({"Authorization": f"Bearer {token}"} if token else {}))
             data = urllib.request.urlopen(req, timeout=90).read()
             im = Image.open(io.BytesIO(data)).convert("RGB")
-            im = im.resize((480, 480), Image.LANCZOS)
+            w, h = im.size  # 아래쪽 워터마크 줄을 잘라내고 정사각형 유지
+            cut = int(h * 0.05)
+            im = im.crop((cut // 2, 0, w - cut // 2, h - cut)).resize((480, 480), Image.LANCZOS)
             im.save(path, "JPEG", quality=82, optimize=True, progressive=True)
             ok = True; made += 1
             print("ok", it["slug"], flush=True)
